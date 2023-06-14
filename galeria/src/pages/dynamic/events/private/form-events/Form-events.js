@@ -1,3 +1,5 @@
+import { Component } from "react";
+
 class FormEvents extends Component {
   constructor(props) {
     super(props);
@@ -22,7 +24,7 @@ class FormEvents extends Component {
     e.preventDefault();
     const values = JSON.stringify(this.state);
     console.log(values);
-    alert(titulo + " ha sido añadido a la lista de eventos");
+    alert(this.state.titulo + " ha sido añadido a la lista de eventos");
     // guardar evento function
   };
 
@@ -94,7 +96,7 @@ class FormEvents extends Component {
             </p>
 
             <br></br>
-          <strong>¿Se trata de un evento formal?</strong>
+            <strong>¿Se trata de un evento formal?</strong>
             <p>
               <label>
                 <input
@@ -119,7 +121,7 @@ class FormEvents extends Component {
             </p>
 
             <br></br>
-          <strong>¿Es apta para menores?</strong>
+            <strong>¿Es apta para menores?</strong>
             <p>
               <label>
                 <input
@@ -141,6 +143,10 @@ class FormEvents extends Component {
                 ></input>
                 No
               </label>
+            </p>
+
+            <p>
+              <button type="submit">ENVIAR</button>
             </p>
           </form>
         </section>
