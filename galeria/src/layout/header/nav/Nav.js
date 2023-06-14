@@ -1,28 +1,32 @@
+import {Link} from "react-router-dom";
+
 function Nav() {
   return (
     <>
       <nav id="nav">
         <ul>
           <li>
-            <Link to="/">Inicio</Link>
+            <Link to="/">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/00/Logo_museum_2017.png"></img>
+            </Link>
           </li>
           <li>
-            <Link to="/paintings">Inicio</Link>
+            <Link to="/paintings">Pinturas</Link>
           </li>
           <li>
-            <Link to="/architecture">Inicio</Link>
+            <Link to="/architecture">Arquitectura</Link>
           </li>
           <li>
-            <Link to="/events">Inicio</Link>
+            <Link to="/events">Events</Link>
           </li>
           <li>
-            <Link to="/about">Inicio</Link>
+            <Link to="/about">About</Link>
           </li>
           <li>
-            <Link to="/contact">Inicio</Link>
+            <Link to="/contact">Contacto</Link>
           </li>
         </ul>
-        <ul>
+        <ul id="nav-login">
           <li>
             <Link to="/login">Login</Link>
           </li>
@@ -31,3 +35,5 @@ function Nav() {
     </>
   );
 }
+
+export default Nav;
