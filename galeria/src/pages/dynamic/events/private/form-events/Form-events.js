@@ -14,6 +14,7 @@ class FormEvents extends Component {
       aptaNiños: false,
     };
   }
+  events = [];
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,8 +26,14 @@ class FormEvents extends Component {
     const values = JSON.stringify(this.state);
     console.log(values);
     alert(this.state.titulo + " ha sido añadido a la lista de eventos");
-    // guardar evento function
+    this.saveEvent(values);
   };
+
+  saveEvent(event) {
+    this.events.push(event);
+    localStorage.setItem("userData", this.events.toString());
+    this.setState({});
+  }
 
   render() {
     const { titulo, descripcion, fecha, aforoInvitados, precio } = this.state;
@@ -55,7 +62,7 @@ class FormEvents extends Component {
                 Descripción
                 <input
                   type="text"
-                  name="apellidos"
+                  name="descripcion"
                   value={descripcion}
                   onChange={this.handleChange}
                 ></input>
