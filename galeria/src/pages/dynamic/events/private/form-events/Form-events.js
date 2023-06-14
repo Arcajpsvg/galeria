@@ -7,11 +7,12 @@ class FormEvents extends Component {
       id: 0,
       titulo: "",
       descripcion: "",
+      imagen: "",
       fecha: "",
       aforoInvitados: 0,
       precio: 0,
       eventoFormal: false,
-      aptaNiños: false,
+      aptaMenores: false,
     };
   }
   events = [];
@@ -36,7 +37,8 @@ class FormEvents extends Component {
   }
 
   render() {
-    const { titulo, descripcion, fecha, aforoInvitados, precio } = this.state;
+    const { titulo, descripcion, imagen, fecha, aforoInvitados, precio } =
+      this.state;
 
     return (
       <>
@@ -64,6 +66,17 @@ class FormEvents extends Component {
                   type="text"
                   name="descripcion"
                   value={descripcion}
+                  onChange={this.handleChange}
+                ></input>
+              </label>
+            </p>
+            <p>
+              <label>
+                Imagen URL
+                <input
+                  type="text"
+                  name="imagen"
+                  value={imagen}
                   onChange={this.handleChange}
                 ></input>
               </label>
@@ -133,7 +146,7 @@ class FormEvents extends Component {
               <label>
                 <input
                   type="radio"
-                  name="eventoFormal"
+                  name="aptaMenores"
                   value="Apta"
                   onChange={this.handleChange}
                 ></input>
@@ -144,7 +157,7 @@ class FormEvents extends Component {
               <label>
                 <input
                   type="radio"
-                  name="eventoFormal"
+                  name="aptaMenores"
                   value="No apta"
                   onChange={this.handleChange}
                 ></input>
