@@ -7,13 +7,15 @@ class FormEvents extends Component {
       id: 0,
       titulo: "",
       descripcion: "",
+      imagen: "",
       fecha: "",
       aforoInvitados: 0,
       precio: 0,
       eventoFormal: false,
-      aptaNiños: false,
+      aptaMenores: false,
     };
   }
+  events = [];
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,11 +27,18 @@ class FormEvents extends Component {
     const values = JSON.stringify(this.state);
     console.log(values);
     alert(this.state.titulo + " ha sido añadido a la lista de eventos");
-    // guardar evento function
+    this.saveEvent(values);
   };
 
+  saveEvent(event) {
+    this.events.push(event);
+    localStorage.setItem("userData", this.events.toString());
+    this.setState({});
+  }
+
   render() {
-    const { titulo, descripcion, fecha, aforoInvitados, precio } = this.state;
+    const { titulo, descripcion, imagen, fecha, aforoInvitados, precio } =
+      this.state;
 
     return (
       <>
@@ -55,8 +64,19 @@ class FormEvents extends Component {
                 Descripción
                 <input
                   type="text"
-                  name="apellidos"
+                  name="descripcion"
                   value={descripcion}
+                  onChange={this.handleChange}
+                ></input>
+              </label>
+            </p>
+            <p>
+              <label>
+                Imagen URL
+                <input
+                  type="text"
+                  name="imagen"
+                  value={imagen}
                   onChange={this.handleChange}
                 ></input>
               </label>
@@ -126,7 +146,7 @@ class FormEvents extends Component {
               <label>
                 <input
                   type="radio"
-                  name="eventoFormal"
+                  name="aptaMenores"
                   value="Apta"
                   onChange={this.handleChange}
                 ></input>
@@ -137,7 +157,7 @@ class FormEvents extends Component {
               <label>
                 <input
                   type="radio"
-                  name="eventoFormal"
+                  name="aptaMenores"
                   value="No apta"
                   onChange={this.handleChange}
                 ></input>
