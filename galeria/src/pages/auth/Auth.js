@@ -5,8 +5,8 @@ export default class Auth extends Component{
 
     constructor(){
         super();
-        this.state = {email: '', password: ''};
-
+        this.state = {email: '', password: '', users: []};
+        this.counter = localStorage.getItem('userCounter') || 0;
     }
 
     handleChange = (e) => {
@@ -17,12 +17,21 @@ export default class Auth extends Component{
 
 
   handleSubmit = (e) => {
+    
     e.preventDefault(); 
-    const values = JSON.stringify(this.state);
-    console.log(values);
-    localStorage.setItem('usuarioLogin', values);
-  }
+    ++this.counter;
+    let nombreUsuario = `usuario${this.counter}`;
+    const {users, ...values} = this.state;
+    // let jsonValues = JSON.stringify(values);
+    let user = {nombre: nombreUsuario, values: {...values}};
+    let jsonUser = JSON.stringify(user);
 
+    localStorage.setItem('usuarioLogin', jsonUser);
+    this.setState((prevState)=> ({users:[...prevState.users, jsonUser]}));
+    localStorage.setItem('userList', this.state.users);
+
+
+  }
 
     render(){
         const {email, password} = this.state;
