@@ -10,6 +10,7 @@ import Paintings from "./pages/dynamic/paintings/Paintings";
 function App() {
   return (
     <Router>
+      <Header></Header>
       <Routes>
         <Route path="" element={<Home />}></Route>
         <Route path="/login" element={<Auth />}></Route>

@@ -31,7 +31,18 @@ code {
 #nav ul li:hover {
   background-color: #bbb;
 }
+ /* Footer*/
 
+#footer {
+  background-color: whitesmoke;
+  display: flex;
+  justify-content: space-between;
+}
+
+#social img{
+  filter: grayscale(100%);
+  width:40px;
+}
 #footer{
   background-color: whitesmoke;
   display:flex;
@@ -49,11 +60,5 @@ code {
   filter: grayscale(100%);
   margin:10px;
   transition: transform .1s; 
-
-}
-
-#social img:hover{
-  cursor:pointer;
-  transform: scale(1.2); 
 
 }
