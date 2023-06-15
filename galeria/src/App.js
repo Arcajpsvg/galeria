@@ -5,6 +5,7 @@ import Auth from './pages/auth/Auth';
 import Header from './layout/header/Header';
 import NotFound from './pages/static/notFound/NotFound';
 import ArchiList from './pages/dynamic/architecture/public/ArchiList';
+import ArchiForm from './pages/dynamic/architecture/private/ArchiForm/ArchiForm';
 import About from './pages/static/about/About';
 import Events from "./pages/dynamic/events/Events";
 
@@ -17,11 +18,9 @@ function App() {
       <Route path='/login' element={<Auth />}></Route>
       <Route path='/about' element={<About />}></Route>
     <Route path='/architecture' element={<ArchiList />}></Route>
+    <Route path='/archiprivate' element={<ArchiForm />}></Route>
         <Route path="/events" element={<Events></Events>}></Route>
-
-   
-    <Route path='/architecture' element={<ArchiList />}></Route>
-    <Route path='*' element={<NotFound />}></Route>
+      <Route path='*' element={<NotFound />}></Route>
       </Routes>
     </Router>
   );
