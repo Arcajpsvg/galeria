@@ -17,8 +17,9 @@ function App() {
       <Route path='/login' element={<Auth />}></Route>
       <Route path='/about' element={<About />}></Route>
 
-      <Route path='*' element={<NotFound />}></Route>
+   
     <Route path='/architecture' element={<ArchiList />}></Route>
+    <Route path='*' element={<NotFound />}></Route>
       </Routes>
     </Router>
   );

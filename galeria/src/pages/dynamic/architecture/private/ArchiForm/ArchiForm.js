@@ -4,7 +4,7 @@ export default class ArchiForm extends Component{
 
 constructor(){
     super();
-    this.state = {id: 0, name: '', description: '', constructionDate: '', author: '', location: ''};
+    this.state = {name: '', description: '', constructionDate: '', author: '', location: ''};
 }
 
 
@@ -48,6 +48,7 @@ render(){
                         <input type="text" name="location" value={location} />
                     </label>
                 </p>
+                <button type="submit">Enviar</button>
             </form>
         </main>
 
