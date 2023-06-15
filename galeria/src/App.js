@@ -6,7 +6,7 @@ import Header from './layout/header/Header';
 import NotFound from './pages/static/notFound/NotFound';
 import ArchiList from './pages/dynamic/architecture/public/ArchiList';
 import About from './pages/static/about/About';
-
+import Events from "./pages/dynamic/events/Events";
 
 function App() {
   return (
@@ -16,9 +16,11 @@ function App() {
       <Route path='' element={<Home />} ></Route>
       <Route path='/login' element={<Auth />}></Route>
       <Route path='/about' element={<About />}></Route>
+    <Route path='/architecture' element={<ArchiList />}></Route>
+        <Route path="/events" element={<Events></Events>}></Route>
 
       <Route path='*' element={<NotFound />}></Route>
-    <Route path='/architecture' element={<ArchiList />}></Route>
+
       </Routes>
     </Router>
   );
