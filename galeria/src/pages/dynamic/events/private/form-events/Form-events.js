@@ -47,11 +47,11 @@ class FormEvents extends Component {
             <h2>Formulario eventos</h2>
           </header>
 
-          <form onSubmit={this.handleSubmit}>
+          <form id="form" onSubmit={this.handleSubmit}>
             <p>
               <label>
                 Titulo
-                <input
+                <input class="text-input"
                   type="text"
                   name="titulo"
                   value={titulo}
@@ -62,7 +62,7 @@ class FormEvents extends Component {
             <p>
               <label>
                 Descripción
-                <input
+                <input class="text-input"
                   type="text"
                   name="descripcion"
                   value={descripcion}
@@ -73,7 +73,7 @@ class FormEvents extends Component {
             <p>
               <label>
                 Imagen URL
-                <input
+                <input class="url-input"
                   type="text"
                   name="imagen"
                   value={imagen}
@@ -84,7 +84,7 @@ class FormEvents extends Component {
             <p>
               <label>
                 Fecha
-                <input
+                <input id="date-input"
                   type="date"
                   name="fecha"
                   value={fecha}
@@ -95,7 +95,7 @@ class FormEvents extends Component {
             <p>
               <label>
                 Aforo invitados
-                <input
+                <input class="number-input"
                   type="number"
                   name="aforoInvitados"
                   value={aforoInvitados}
@@ -106,7 +106,7 @@ class FormEvents extends Component {
             <p>
               <label>
                 Precio
-                <input
+                <input className="number-input"
                   type="number"
                   name="precio"
                   value={precio}
@@ -119,7 +119,7 @@ class FormEvents extends Component {
             <strong>¿Se trata de un evento formal?</strong>
             <p>
               <label>
-                <input
+                <input className="radio-input"
                   type="radio"
                   name="eventoFormal"
                   value="Formal"
@@ -130,7 +130,7 @@ class FormEvents extends Component {
               <br></br>
 
               <label>
-                <input
+                <input className="radio-input"
                   type="radio"
                   name="eventoFormal"
                   value="Informal"
@@ -144,7 +144,7 @@ class FormEvents extends Component {
             <strong>¿Es apta para menores?</strong>
             <p>
               <label>
-                <input
+                <input className="radio-input"
                   type="radio"
                   name="aptaMenores"
                   value="Apta"
@@ -155,7 +155,7 @@ class FormEvents extends Component {
               <br></br>
 
               <label>
-                <input
+                <input className="radio-input"
                   type="radio"
                   name="aptaMenores"
                   value="No apta"
@@ -166,7 +166,7 @@ class FormEvents extends Component {
             </p>
 
             <p>
-              <button type="submit">ENVIAR</button>
+              <button id="btn-submit" type="submit">ENVIAR</button>
             </p>
           </form>
         </section>
