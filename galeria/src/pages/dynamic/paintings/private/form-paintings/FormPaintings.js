@@ -1,9 +1,11 @@
 import { Component } from "react";
+import ValidatorFormPaintings from "../form-paintings/validators-form-painting/Validator-form-Paintings";
 
 class FormPaintings extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      values:{
       id: 0,
       titulo: "",
       imagen: "",
@@ -11,34 +13,147 @@ class FormPaintings extends Component {
       fecha: "",
       precio: 0,
       estilo: "",
-    };
-  }
+    },
+
+    validations:
+            {
+              id: 0,
+              titulo: "",
+              imagen: "",
+              autor:"",
+              fecha: "",
+              precio: 0,
+              estilo: "",
+            }
+  }}
+
   events = [];
 
   handleChange = (e) => {
     const { name, value } = e.target;
-    this.setState({ [name]: value });
+    this.setState(
+      {
+          values:{
+              ...this.state.values,                   
+              [name]:value
+          }
+      }
+  );
   };
+  
+   
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const isValid = this.validateAll();
+    if(!isValid)
+    {
+        return false;
+    }
     const values = JSON.stringify(this.state);
     console.log(values);
     alert(this.state.titulo + " pintura añadida");
-    this.saveEvent(values);
+    window.localStorage("pinturas", values);
   };
 
-  saveEvent(event) {
-    this.events.push(event);
-    localStorage.setItem("userData", this.events.toString());
-    this.setState({});
-  }
+  validateAll = () => {
+    const { titulo, imagen, autor, fecha, precio, estilo } = this.state.values;
+    const validations = {
+      id: 0,
+      titulo: "",
+      imagen: "",
+      autor:"",
+      fecha: "",
+      precio: 0,
+      estilo: "",
+  } 
+    validations.id = this.validateId(titulo);
+    validations.titulo = this.validateTitulo(titulo);
+    validations.imagen = this.validateImagen(imagen);
+    validations.autor = this.validateAutor(autor);
+    validations.fecha = this.validateFecha(fecha);
+    validations.precio = this.validatePrecio(precio);
+    validations.estilo = this.validateEstilo(estilo);
+
+  
+    const validationmessages = Object.values(validations).filter(message => message.length > 0)
+  
+    const isValid = !validationmessages.length;
+    
+    if(!isValid)
+    {
+        this.setState({
+            validations
+        });
+    }
+    return isValid;
+}
+validateId = (id) => {
+  const validatorId = new ValidatorFormPaintings(id);
+  return validatorId
+              .isNotEmpty("Obligatorio")
+              .isLength(0,50,"Error en la longitud")
+              .result
+}
+
+
+
+validateTitulo = (titulo) => {
+    const validatorTitulo = new ValidatorFormPaintings(titulo);
+    return validatorTitulo
+                .isNotEmpty("Obligatorio")
+                .isLength(0,50,"Error en la longitud")
+                .result
+}
+validateImagen = (imagen) => {
+    const validatorImagen = new ValidatorFormPaintings(imagen);
+    return validatorImagen
+                .isURL("Formato erroneo")
+                .result
+}
+
+validateAutor = (autor) => {
+  const validatorAutor = new ValidatorFormPaintings(autor);
+  return validatorAutor
+              .isNotEmpty("Obligatorio")
+              .isLength(0,50,"Error en la longitud")
+              .result
+}
+
+validateFecha = (fecha) => {
+  const validatorFecha = new ValidatorFormPaintings(fecha);
+  return validatorFecha
+  .isFormat("Formato erroneo")
+              .result
+}
+
+validatePrecio = (precio) => {
+    const validatorPrecio = new ValidatorFormPaintings(precio);
+    return validatorPrecio
+                .isEmail("Debe tener formato email")
+                .result
+}
+validateEstilo = (estilo) => {
+    const validatorEstilo = new ValidatorFormPaintings(estilo);
+    return validatorEstilo
+                .isLength(2,10,"Longitud ente 2 y 10 caracteres")
+                .result
+}
+
+
 
   render() {
-    const { titulo, imagen, autor, fecha, precio, estilo } =
-      this.state;
-
+    const { titulo, imagen, autor, fecha, precio, estilo } = this.state.values;
+    const {
+      titulo: tituloVal,
+      imagen: imagenVal,
+      autor: autorVal,
+      fecha: fechaVal,
+      estilo:estiloVal,
+      precio: precioVal,
+  } = this.state.validations;
     return (
+      <>
         <section>
           <header>
             <h2>Formulario pinturas</h2>
@@ -56,6 +171,7 @@ class FormPaintings extends Component {
                 ></input>
               </label>
             </p>
+            <p>{tituloVal}</p>
             <p>
               <label>
                 Autor
@@ -67,6 +183,8 @@ class FormPaintings extends Component {
                 ></input>
               </label>
             </p>
+            <p>{autorVal}</p>
+
             <p>
               <label>
              Imagen
@@ -78,6 +196,7 @@ class FormPaintings extends Component {
                 ></input>
               </label>
             </p>
+            <p>{imagenVal}</p>
             <p>
               <label>
                 Fecha
@@ -89,6 +208,8 @@ class FormPaintings extends Component {
                 ></input>
               </label>
             </p>
+            <p>{fechaVal}</p>
+
             <p>
               <label>
                 Estilo
@@ -100,6 +221,7 @@ class FormPaintings extends Component {
                 ></input>
               </label>
             </p>
+            <p>{estiloVal}</p>
             <p>
               <label>
                 Precio
@@ -111,12 +233,14 @@ class FormPaintings extends Component {
                 ></input>
               </label>
             </p>
+            <p>{precioVal}</p>
+
             <p>
-              <button type="submit">ENVIAR</button>
+              <input type="submit" value="Enviar"/>
             </p>
           </form>
         </section>
-      
+      </>
     );
   }
 }
