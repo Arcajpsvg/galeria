@@ -1,0 +1,16 @@
+#about-section{
+    margin: 0 auto;
+    padding: 1em;
+    text-align: center;
+}
+
+#member-div-control{
+    display: flex;
+    flex-direction: row;
+    padding: 1em;
+    gap: 2em;
+}
+
+.member-div{
+    width: 33vw;
+}
