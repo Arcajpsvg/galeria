@@ -51,7 +51,7 @@ class FormEvents extends Component {
             <p>
               <label>
                 Titulo
-                <input class="text-input"
+                <input className="text-input"
                   type="text"
                   name="titulo"
                   value={titulo}
@@ -62,7 +62,7 @@ class FormEvents extends Component {
             <p>
               <label>
                 Descripción
-                <input class="text-input"
+                <input className="text-input"
                   type="text"
                   name="descripcion"
                   value={descripcion}
@@ -73,7 +73,7 @@ class FormEvents extends Component {
             <p>
               <label>
                 Imagen URL
-                <input class="url-input"
+                <input className="url-input"
                   type="text"
                   name="imagen"
                   value={imagen}
@@ -95,7 +95,7 @@ class FormEvents extends Component {
             <p>
               <label>
                 Aforo invitados
-                <input class="number-input"
+                <input className="number-input"
                   type="number"
                   name="aforoInvitados"
                   value={aforoInvitados}
