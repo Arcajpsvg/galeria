@@ -1,5 +1,7 @@
 import places from './../datagen/ArchiData';
 import './ArchiList.css';
+import {Link} from "react-router-dom";
+
 export default function ArchiList(){
     return(
     <section id="public-arch-list">
@@ -17,6 +19,9 @@ export default function ArchiList(){
 
             </article>)
     }
+    <p id='arch-link-control'>
+    <Link to='/archiprivate' id='private-arch-link'>Private area</Link>
+    </p>
 </section>
 );
 }
