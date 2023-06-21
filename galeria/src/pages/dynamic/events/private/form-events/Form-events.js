@@ -16,7 +16,7 @@ class FormEvents extends Component {
         eventoFormal: false,
         aptaMenores: false,
       },
-      validators: {
+      validations: {
         id: [],
         titulo: [],
         descripcion: [],
@@ -55,14 +55,13 @@ class FormEvents extends Component {
   saveEvent(event) {
     window.localStorage("eventos", event);
     alert(this.state.titulo + " ha sido añadido a la lista de eventos");
-    this.setState({});
   }
 
   validateTitle = (titulo) => {
     const validatorName = new ValidatorFormEvents(titulo);
 
     return validatorName
-      .isRequired("Titulo requerido")
+      .isRequired("Titulo requerido, ")
       .isLenght(3, 50, "Debe contener entre 3 y 50 caracteres").result;
   };
 
@@ -70,7 +69,7 @@ class FormEvents extends Component {
     const validatorDescription = new ValidatorFormEvents(description);
 
     return validatorDescription
-      .isRequired("Descripción requerida")
+      .isRequired("Descripción requerida, ")
       .isLenght(10, 500, "Debe contener entre 10 y 500 caracteres").result;
   };
 
@@ -78,6 +77,20 @@ class FormEvents extends Component {
     const validatorRadioButton = new ValidatorFormEvents(radioButton);
 
     return validatorRadioButton.isNotEmpty("Debes marcar una opción").result;
+  };
+
+  validateNumberPicker = (numberPicker) => {
+    const validatorNumberPicker = new ValidatorFormEvents(numberPicker);
+
+    return validatorNumberPicker.isNotZero("Debes marcar un mínimo").result;
+  };
+
+  validateImage = (image) => {
+    const validatorImage = new ValidatorFormEvents(image);
+
+    return validatorImage
+      .isRequired("Imagen requerida, ")
+      .isURL("No es una url válida").result;
   };
 
   validateAll = () => {
@@ -106,9 +119,12 @@ class FormEvents extends Component {
     validations.descripcion = this.validateDescription(descripcion);
     validations.eventoFormal = this.validateRadioButton(eventoFormal);
     validations.aptaMenores = this.validateRadioButton(aptaMenores);
+    validations.aforoInvitados = this.validateNumberPicker(aforoInvitados);
+    validations.precio = this.validateNumberPicker(precio);
+    validations.imagen = this.validateImage(imagen);
 
     const validationmessages = Object.values(validations).filter(
-      (msg) => msg.length > 0
+      (message) => message.length > 0
     );
 
     const isValid = !validationmessages.length;
@@ -132,7 +148,7 @@ class FormEvents extends Component {
       precio: priceVal,
       eventoFormal: formalEventVal,
       aptaMenores: suitableChildrenVal,
-    } = this.state.validators;
+    } = this.state.validations;
 
     return (
       <>
@@ -180,6 +196,7 @@ class FormEvents extends Component {
                 ></input>
               </label>
             </p>
+            <span>{imageVal}</span>
             <p>
               <label>
                 Fecha
@@ -204,6 +221,7 @@ class FormEvents extends Component {
                 ></input>
               </label>
             </p>
+            <span>{guestsVal}</span>
             <p>
               <label>
                 Precio
@@ -216,8 +234,7 @@ class FormEvents extends Component {
                 ></input>
               </label>
             </p>
-            <span>{guestsVal}</span>
-
+            <span>{priceVal}</span>
             <br></br>
             <strong>¿Se trata de un evento formal?</strong>
             <p>
@@ -232,7 +249,6 @@ class FormEvents extends Component {
                 Evento formal
               </label>
               <br></br>
-
               <label>
                 <input
                   className="radio-input"
