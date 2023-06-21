@@ -239,6 +239,9 @@ validateEstilo = (estilo) => {
               <input type="submit" value="Enviar"/>
             </p>
           </form>
+          <pre>
+                    {JSON.stringify(this.state.values)}
+                </pre>
         </section>
       </>
     );
