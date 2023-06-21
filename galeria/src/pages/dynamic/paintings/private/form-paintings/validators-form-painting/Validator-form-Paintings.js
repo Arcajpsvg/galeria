@@ -9,7 +9,7 @@ class ValidatorFormPaintings{
     }
     isURL(msg) {
 
-        if(!/\.(jpeg|jpg|gif|png)$/.test(this.value)){
+        if(!    /\.(jpeg|jpg|gif|png)$/.test(this.value)){
             this.result.push(msg);
         }
 
