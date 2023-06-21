@@ -1,44 +1,138 @@
 import { Component } from "react";
+import ValidatorFormEvents from "./validator/ValidatorFormEvents";
 
 class FormEvents extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: 0,
-      titulo: "",
-      descripcion: "",
-      imagen: "",
-      fecha: "",
-      aforoInvitados: 0,
-      precio: 0,
-      eventoFormal: false,
-      aptaMenores: false,
+      values: {
+        id: 0,
+        titulo: "",
+        descripcion: "",
+        imagen: "",
+        fecha: "",
+        aforoInvitados: 0,
+        precio: 0,
+        eventoFormal: false,
+        aptaMenores: false,
+      },
+      validators: {
+        id: [],
+        titulo: [],
+        descripcion: [],
+        imagen: [],
+        fecha: [],
+        aforoInvitados: [],
+        precio: [],
+        eventoFormal: [],
+        aptaMenores: [],
+      },
     };
   }
   events = [];
 
   handleChange = (e) => {
     const { name, value } = e.target;
-    this.setState({ [name]: value });
+    this.setState({
+      values: {
+        ...this.state.values,
+        [name]: value,
+      },
+    });
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const values = JSON.stringify(this.state);
-    console.log(values);
-    alert(this.state.titulo + " ha sido añadido a la lista de eventos");
-    this.saveEvent(values);
+    const isValid = this.validateAll();
+    if (!isValid) {
+      return false;
+    }
+    const eventValues = JSON.stringify(this.state);
+    console.log(eventValues);
+    this.saveEvent(eventValues);
   };
 
   saveEvent(event) {
-    this.events.push(event);
-    localStorage.setItem("userData", this.events.toString());
+    window.localStorage("eventos", event);
+    alert(this.state.titulo + " ha sido añadido a la lista de eventos");
     this.setState({});
   }
 
+  validateTitle = (titulo) => {
+    const validatorName = new ValidatorFormEvents(titulo);
+
+    return validatorName
+      .isRequired("Titulo requerido")
+      .isLenght(3, 50, "Debe contener entre 3 y 50 caracteres").result;
+  };
+
+  validateDescription = (description) => {
+    const validatorDescription = new ValidatorFormEvents(description);
+
+    return validatorDescription
+      .isRequired("Descripción requerida")
+      .isLenght(10, 500, "Debe contener entre 10 y 500 caracteres").result;
+  };
+
+  validateRadioButton = (radioButton) => {
+    const validatorRadioButton = new ValidatorFormEvents(radioButton);
+
+    return validatorRadioButton.isNotEmpty("Debes marcar una opción").result;
+  };
+
+  validateAll = () => {
+    const {
+      titulo,
+      descripcion,
+      imagen,
+      fecha,
+      aforoInvitados,
+      precio,
+      eventoFormal,
+      aptaMenores,
+    } = this.state.values;
+    const validations = {
+      titulo: "",
+      descripcion: "",
+      imagen: "",
+      fecha: "",
+      aforoInvitados: "",
+      precio: "",
+      eventoFormal: "",
+      aptaMenores: "",
+    };
+
+    validations.titulo = this.validateTitle(titulo);
+    validations.descripcion = this.validateDescription(descripcion);
+    validations.eventoFormal = this.validateRadioButton(eventoFormal);
+    validations.aptaMenores = this.validateRadioButton(aptaMenores);
+
+    const validationmessages = Object.values(validations).filter(
+      (msg) => msg.length > 0
+    );
+
+    const isValid = !validationmessages.length;
+
+    if (!isValid) {
+      this.setState({ validations });
+    }
+    return isValid;
+  };
+
   render() {
     const { titulo, descripcion, imagen, fecha, aforoInvitados, precio } =
-      this.state;
+      this.state.values;
+
+    const {
+      titulo: titleVal,
+      descripcion: descriptionVal,
+      imagen: imageVal,
+      fecha: dateVal,
+      aforoInvitados: guestsVal,
+      precio: priceVal,
+      eventoFormal: formalEventVal,
+      aptaMenores: suitableChildrenVal,
+    } = this.state.validators;
 
     return (
       <>
@@ -51,7 +145,8 @@ class FormEvents extends Component {
             <p>
               <label>
                 Titulo
-                <input class="text-input"
+                <input
+                  className="text-input"
                   type="text"
                   name="titulo"
                   value={titulo}
@@ -59,10 +154,12 @@ class FormEvents extends Component {
                 ></input>
               </label>
             </p>
+            <span>{titleVal}</span>
             <p>
               <label>
                 Descripción
-                <input class="text-input"
+                <input
+                  className="text-input"
                   type="text"
                   name="descripcion"
                   value={descripcion}
@@ -70,10 +167,12 @@ class FormEvents extends Component {
                 ></input>
               </label>
             </p>
+            <span>{descriptionVal}</span>
             <p>
               <label>
                 Imagen URL
-                <input class="url-input"
+                <input
+                  className="url-input"
                   type="text"
                   name="imagen"
                   value={imagen}
@@ -84,7 +183,8 @@ class FormEvents extends Component {
             <p>
               <label>
                 Fecha
-                <input id="date-input"
+                <input
+                  id="date-input"
                   type="date"
                   name="fecha"
                   value={fecha}
@@ -95,7 +195,8 @@ class FormEvents extends Component {
             <p>
               <label>
                 Aforo invitados
-                <input class="number-input"
+                <input
+                  className="number-input"
                   type="number"
                   name="aforoInvitados"
                   value={aforoInvitados}
@@ -106,7 +207,8 @@ class FormEvents extends Component {
             <p>
               <label>
                 Precio
-                <input className="number-input"
+                <input
+                  className="number-input"
                   type="number"
                   name="precio"
                   value={precio}
@@ -114,12 +216,14 @@ class FormEvents extends Component {
                 ></input>
               </label>
             </p>
+            <span>{guestsVal}</span>
 
             <br></br>
             <strong>¿Se trata de un evento formal?</strong>
             <p>
               <label>
-                <input className="radio-input"
+                <input
+                  className="radio-input"
                   type="radio"
                   name="eventoFormal"
                   value="Formal"
@@ -130,7 +234,8 @@ class FormEvents extends Component {
               <br></br>
 
               <label>
-                <input className="radio-input"
+                <input
+                  className="radio-input"
                   type="radio"
                   name="eventoFormal"
                   value="Informal"
@@ -139,12 +244,14 @@ class FormEvents extends Component {
                 Evento informal
               </label>
             </p>
+            <span>{formalEventVal}</span>
 
             <br></br>
             <strong>¿Es apta para menores?</strong>
             <p>
               <label>
-                <input className="radio-input"
+                <input
+                  className="radio-input"
                   type="radio"
                   name="aptaMenores"
                   value="Apta"
@@ -155,7 +262,8 @@ class FormEvents extends Component {
               <br></br>
 
               <label>
-                <input className="radio-input"
+                <input
+                  className="radio-input"
                   type="radio"
                   name="aptaMenores"
                   value="No apta"
@@ -164,11 +272,15 @@ class FormEvents extends Component {
                 No
               </label>
             </p>
+            <span>{suitableChildrenVal}</span>
 
             <p>
-              <button id="btn-submit" type="submit">ENVIAR</button>
+              <button id="btn-submit" type="submit">
+                ENVIAR
+              </button>
             </p>
           </form>
+          <pre>{JSON.stringify(this.state.values)}</pre>
         </section>
       </>
     );

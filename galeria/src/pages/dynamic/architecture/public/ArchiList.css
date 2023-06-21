@@ -4,3 +4,20 @@
     text-align: center;
     
 }
+
+#private-arch-link{
+    border: 1px solid silver;
+    padding: 2em;
+    text-decoration:none;
+
+}
+
+#arch-link-control{
+    margin: 2em 0 0 0;
+    padding: 2em;
+}
+
+#private-arch-link:hover{
+    background-color:silver;
+    color:black;
+}
