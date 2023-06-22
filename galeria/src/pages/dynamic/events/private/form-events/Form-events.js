@@ -160,7 +160,8 @@ class FormEvents extends Component {
 
           <form id="form" onSubmit={this.handleSubmit}>
             <p>
-              <label>
+              <div className="input">
+                <label>Titulo</label>
                 <input
                   className="text-input"
                   type="text"
@@ -169,7 +170,7 @@ class FormEvents extends Component {
                   onChange={this.handleChange}
                   placeholder="Titulo"
                 ></input>
-              </label>
+              </div>
             </p>
             <span>{titleVal}</span>
             <p>
@@ -232,7 +233,7 @@ class FormEvents extends Component {
                   value={precio}
                   onChange={this.handleChange}
                 ></input>
-                 Precio
+                Precio
               </label>
             </p>
             <span>{priceVal}</span>
@@ -258,7 +259,7 @@ class FormEvents extends Component {
                   value="Informal"
                   onChange={this.handleChange}
                 ></input>
-               No
+                No
               </label>
             </p>
             <span>{formalEventVal}</span>
@@ -290,7 +291,7 @@ class FormEvents extends Component {
               </label>
             </p>
             <span>{suitableChildrenVal}</span>
-          <br></br>
+            <br></br>
             <p>
               <button id="btn-submit" type="submit">
                 ENVIAR

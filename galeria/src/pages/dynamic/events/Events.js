@@ -1,4 +1,5 @@
 import FormEvents from "./private/form-events/Form-events";
+import ListEvents from "./private/list-events/List-events";
 
 function Events() {
   return (
@@ -9,7 +10,8 @@ function Events() {
 
       <hr></hr>
       <article>
-        <FormEvents></FormEvents>
+        {/* <FormEvents></FormEvents> */}
+        <ListEvents></ListEvents>
       </article>
     </section>
   );
