@@ -15,12 +15,14 @@ textarea {
     background-color: whitesmoke;
     border: none;
     padding: 10px;
+    width: 300px;
 }
 
 
 input:not(.number-input, .radio-input) {
   width: 300px;
 }
+
 
 #date-input {
   font-family: sans-serif;
