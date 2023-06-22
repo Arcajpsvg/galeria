@@ -8,25 +8,29 @@ class ListPaintings extends Component{
     {
         return(
             <section>
-                <header>
+                <header id="painting_list_header">
                     <h1>Lista de Pinturas</h1>
                 </header>
                 {
                     PostP.map(post=>
-                        <article key={post.id}>
+            
+                        <section key={post.id} className="painting_post">
                             <header>  
                                     <h2>{post.title}</h2>
                             </header>
-                            <p>
-                                {post.image}
-                            </p>
-                            <span>{post.author}</span>
-                            <span>{post.style}</span>
+                            <>
+                            <figcaption><img src={post.image}/></figcaption> 
+                            </>
+                            <p>Autor: {post.author}</p>
+                            <p>Fecha:{post.year}</p>
+                            <p>Estilo:{post.style}</p>
+                            <p>Precio:{post.price}</p>
                             <span></span>
-                        </article>
+                           
+                        </section>
                     )
                 }
-                <button name="pasar" type="button">
+                 <button name="pasar" type="button" id="pass">
                 <Link to='/paintingsprivate'>Private Form</Link>
 </button>
             </section>
@@ -35,37 +39,3 @@ class ListPaintings extends Component{
 }
 
 export default ListPaintings;
-/* import { Component } from "react";
-import posts from "../../data/post";
-import {Link, Outlet} from 'react-router-dom';
-
-class Paintings extends Component{
-    render()
-    {
-        return(
-            <section>
-                <header>
-                    <h1>Lista de Pinturas</h1>
-                </header>
-                {
-                    posts.map(post=>
-                        <article key={post.id}>
-                            <header>
-                                <Link to={"/painting/" + post.id}>
-                                    <h2>{post.title}</h2>
-                                </Link>
-                            </header>
-                            <img>
-                                {post.image}
-                            </img>
-                            <span>{post.author}</span>
-                            <span>{post.style}</span>
-                        </article>
-                    )
-                }
-            </section>
-        )
-    }
-}
-
-export default Paintings;*/
