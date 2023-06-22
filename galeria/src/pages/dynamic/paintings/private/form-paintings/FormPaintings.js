@@ -1,54 +1,50 @@
 import { Component } from "react";
 import ValidatorFormPaintings from "../form-paintings/validators-form-painting/Validator-form-Paintings";
+import "../../../styles/formstyles/FormStyles.css";
 
 class FormPaintings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      values:{
-      id: 0,
-      titulo: "",
-      imagen: "",
-      autor:"",
-      fecha: "",
-      precio: 0,
-      estilo: "",
-    },
+      values: {
+        id: 0,
+        titulo: "",
+        imagen: "",
+        autor: "",
+        fecha: "",
+        precio: 0,
+        estilo: "",
+      },
 
-    validations:
-            {
-              id: 0,
-              titulo: "",
-              imagen: "",
-              autor:"",
-              fecha: "",
-              precio: 0,
-              estilo: "",
-            }
-  }}
+      validations: {
+        id: 0,
+        titulo: "",
+        imagen: "",
+        autor: "",
+        fecha: "",
+        precio: 0,
+        estilo: "",
+      },
+    };
+  }
 
   events = [];
 
   handleChange = (e) => {
     const { name, value } = e.target;
-    this.setState(
-      {
-          values:{
-              ...this.state.values,                   
-              [name]:value
-          }
-      }
-  );
+    this.setState({
+      values: {
+        ...this.state.values,
+        [name]: value,
+      },
+    });
   };
-  
-   
 
   handleSubmit = (e) => {
     e.preventDefault();
     const isValid = this.validateAll();
-    if(!isValid)
-    {
-        return false;
+    if (!isValid) {
+      return false;
     }
     const values = JSON.stringify(this.state);
     console.log(values);
@@ -62,11 +58,11 @@ class FormPaintings extends Component {
       id: 0,
       titulo: "",
       imagen: "",
-      autor:"",
+      autor: "",
       fecha: "",
       precio: 0,
       estilo: "",
-  } 
+    };
     validations.id = this.validateId(titulo);
     validations.titulo = this.validateTitulo(titulo);
     validations.imagen = this.validateImagen(imagen);
@@ -75,72 +71,58 @@ class FormPaintings extends Component {
     validations.precio = this.validatePrecio(precio);
     validations.estilo = this.validateEstilo(estilo);
 
-  
-    const validationmessages = Object.values(validations).filter(message => message.length > 0)
-  
+    const validationmessages = Object.values(validations).filter(
+      (message) => message.length > 0
+    );
+
     const isValid = !validationmessages.length;
-    
-    if(!isValid)
-    {
-        this.setState({
-            validations
-        });
+
+    if (!isValid) {
+      this.setState({
+        validations,
+      });
     }
     return isValid;
-}
-validateId = (id) => {
-  const validatorId = new ValidatorFormPaintings(id);
-  return validatorId
-              .isNotEmpty("Obligatorio")
-              .isLength(0,50,"Error en la longitud")
-              .result
-}
+  };
+  validateId = (id) => {
+    const validatorId = new ValidatorFormPaintings(id);
+    return validatorId
+      .isNotEmpty("Obligatorio")
+      .isLength(0, 50, "Error en la longitud").result;
+  };
 
-
-
-validateTitulo = (titulo) => {
+  validateTitulo = (titulo) => {
     const validatorTitulo = new ValidatorFormPaintings(titulo);
     return validatorTitulo
-                .isNotEmpty("Obligatorio")
-                .isLength(0,50,"Error en la longitud")
-                .result
-}
-validateImagen = (imagen) => {
+      .isNotEmpty("Obligatorio")
+      .isLength(0, 50, "Error en la longitud").result;
+  };
+  validateImagen = (imagen) => {
     const validatorImagen = new ValidatorFormPaintings(imagen);
-    return validatorImagen
-                .isURL("Formato erroneo")
-                .result
-}
+    return validatorImagen.isURL("Formato erroneo").result;
+  };
 
-validateAutor = (autor) => {
-  const validatorAutor = new ValidatorFormPaintings(autor);
-  return validatorAutor
-              .isNotEmpty("Obligatorio")
-              .isLength(0,50,"Error en la longitud")
-              .result
-}
+  validateAutor = (autor) => {
+    const validatorAutor = new ValidatorFormPaintings(autor);
+    return validatorAutor
+      .isNotEmpty("Obligatorio")
+      .isLength(0, 50, "Error en la longitud").result;
+  };
 
-validateFecha = (fecha) => {
-  const validatorFecha = new ValidatorFormPaintings(fecha);
-  return validatorFecha
-  .isFormat("Formato erroneo")
-              .result
-}
+  validateFecha = (fecha) => {
+    const validatorFecha = new ValidatorFormPaintings(fecha);
+    return validatorFecha.isFormat("Formato erroneo").result;
+  };
 
-validatePrecio = (precio) => {
+  validatePrecio = (precio) => {
     const validatorPrecio = new ValidatorFormPaintings(precio);
-    return validatorPrecio
-                .isEmail("Debe tener formato email")
-                .result
-}
-validateEstilo = (estilo) => {
+    return validatorPrecio.isEmail("Debe tener formato email").result;
+  };
+  validateEstilo = (estilo) => {
     const validatorEstilo = new ValidatorFormPaintings(estilo);
-    return validatorEstilo
-                .isLength(2,10,"Longitud ente 2 y 10 caracteres")
-                .result
-}
-
-
+    return validatorEstilo.isLength(2, 10, "Longitud ente 2 y 10 caracteres")
+      .result;
+  };
 
   render() {
     const { titulo, imagen, autor, fecha, precio, estilo } = this.state.values;
@@ -149,9 +131,9 @@ validateEstilo = (estilo) => {
       imagen: imagenVal,
       autor: autorVal,
       fecha: fechaVal,
-      estilo:estiloVal,
+      estilo: estiloVal,
       precio: precioVal,
-  } = this.state.validations;
+    } = this.state.validations;
     return (
       <>
         <section>
@@ -187,7 +169,7 @@ validateEstilo = (estilo) => {
 
             <p>
               <label>
-             Imagen
+                Imagen
                 <input
                   type="text"
                   name="imagen"
@@ -236,7 +218,7 @@ validateEstilo = (estilo) => {
             <p>{precioVal}</p>
 
             <p>
-              <input type="submit" value="Enviar"/>
+              <input type="submit" value="Enviar" />
             </p>
           </form>
         </section>

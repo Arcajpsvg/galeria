@@ -1,6 +1,6 @@
 import { Component } from "react";
 import ValidatorFormEvents from "./validator/ValidatorFormEvents";
-import "./Form-events.css";
+import "../../../styles/formstyles/FormStyles.css";
 
 class FormEvents extends Component {
   constructor(props) {
