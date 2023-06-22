@@ -2,7 +2,6 @@ import { Component } from "react";
 import ValidatorArchitecture from "./validators/ValidatorFormArchitecture";
 import './ArchiForm.css';
 import '../../../styles/formstyles/FormStyles.css';
-
 export default class ArchiForm extends Component{
 
 constructor(props){
@@ -121,45 +120,43 @@ render(){
             <h1>Architecture form</h1>
         </header>
         <main>
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit} id='form'>
                 <p>
                     <label>Name
                         <input type="text" name="name" value={name} onChange={this.handleChange}/>
                     </label>
                 </p>
-                <span>{nameVal}</span>
+                <span class='error-control'>{nameVal}</span>
                 <p>
                     <label>Description
                         <textarea name="description" value={description} onChange={this.handleChange}/>
                     </label>
                 </p>
-                <span>{descVal}</span>
+                <span class='error-control'>{descVal}</span>
                 <p>
                     <label>Year of construction
                         <input type="number" name="constructionYear" value={constructionYear} onChange={this.handleChange}/>
                     </label>
                 </p>
-                <span>{yearVal}</span>
+                <span class='error-control'>{yearVal}</span>
 
                 <p>
                     <label>Author
                         <input type="text" name="author" value={author} onChange={this.handleChange}/>
                     </label>
                 </p>
-                <span>{authorVal}</span>
+                <span class='error-control'>{authorVal}</span>
 
                 <p>
                     <label>Location
                         <input type="text" name="location" value={location} onChange={this.handleChange}/>
                     </label>
                 </p>
-                <span>{locationVal}</span>
+                <span class='error-control'>{locationVal}</span>
 
                 <button type="submit">Enviar</button>
             </form>
-            <pre>
-                    {JSON.stringify(this.state.values)}
-                </pre>
+    
         </main>
 
     </article>

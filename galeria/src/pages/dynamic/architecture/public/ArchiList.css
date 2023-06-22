@@ -9,15 +9,17 @@
     border: 1px solid silver;
     padding: 2em;
     text-decoration:none;
+    transition: 0.3s;
 
 }
 
 #arch-link-control{
     margin: 2em 0 0 0;
     padding: 2em;
+    
 }
 
 #private-arch-link:hover{
-    background-color:silver;
-    color:black;
+    background-color:#a03434;
+    color:silver;
 }

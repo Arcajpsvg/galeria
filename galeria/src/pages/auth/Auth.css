@@ -5,3 +5,10 @@
     padding: 1em;
     width: 50%;
 }
+
+
+.error-control{
+    color: maroon;
+    background-color: silver;
+    display: block;
+}
