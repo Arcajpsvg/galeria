@@ -1,5 +1,6 @@
 import { Component } from "react";
 import ValidatorFormEvents from "./validator/ValidatorFormEvents";
+import "./Form-events.css";
 
 class FormEvents extends Component {
   constructor(props) {
@@ -160,58 +161,57 @@ class FormEvents extends Component {
           <form id="form" onSubmit={this.handleSubmit}>
             <p>
               <label>
-                Titulo
                 <input
                   className="text-input"
                   type="text"
                   name="titulo"
                   value={titulo}
                   onChange={this.handleChange}
+                  placeholder="Titulo"
                 ></input>
               </label>
             </p>
             <span>{titleVal}</span>
             <p>
               <label>
-                Descripción
                 <input
                   className="text-input"
                   type="text"
                   name="descripcion"
                   value={descripcion}
                   onChange={this.handleChange}
+                  placeholder="Descripción"
                 ></input>
               </label>
             </p>
             <span>{descriptionVal}</span>
             <p>
               <label>
-                Imagen URL
                 <input
                   className="url-input"
                   type="text"
                   name="imagen"
                   value={imagen}
                   onChange={this.handleChange}
+                  placeholder="Imagen URL"
                 ></input>
               </label>
             </p>
             <span>{imageVal}</span>
             <p>
               <label>
-                Fecha
                 <input
                   id="date-input"
                   type="date"
                   name="fecha"
                   value={fecha}
                   onChange={this.handleChange}
+                  placeholder="Fecha"
                 ></input>
               </label>
             </p>
             <p>
               <label>
-                Aforo invitados
                 <input
                   className="number-input"
                   type="number"
@@ -219,12 +219,12 @@ class FormEvents extends Component {
                   value={aforoInvitados}
                   onChange={this.handleChange}
                 ></input>
+                Aforo invitados
               </label>
             </p>
             <span>{guestsVal}</span>
             <p>
               <label>
-                Precio
                 <input
                   className="number-input"
                   type="number"
@@ -232,11 +232,12 @@ class FormEvents extends Component {
                   value={precio}
                   onChange={this.handleChange}
                 ></input>
+                 Precio
               </label>
             </p>
             <span>{priceVal}</span>
             <br></br>
-            <strong>¿Se trata de un evento formal?</strong>
+            <p>¿Se trata de un evento formal?</p>
             <p>
               <label>
                 <input
@@ -246,7 +247,7 @@ class FormEvents extends Component {
                   value="Formal"
                   onChange={this.handleChange}
                 ></input>
-                Evento formal
+                Sí
               </label>
               <br></br>
               <label>
@@ -257,13 +258,13 @@ class FormEvents extends Component {
                   value="Informal"
                   onChange={this.handleChange}
                 ></input>
-                Evento informal
+               No
               </label>
             </p>
             <span>{formalEventVal}</span>
 
             <br></br>
-            <strong>¿Es apta para menores?</strong>
+            <p>¿Es apta para menores?</p>
             <p>
               <label>
                 <input
@@ -273,7 +274,7 @@ class FormEvents extends Component {
                   value="Apta"
                   onChange={this.handleChange}
                 ></input>
-                Si
+                Sí
               </label>
               <br></br>
 
@@ -289,7 +290,7 @@ class FormEvents extends Component {
               </label>
             </p>
             <span>{suitableChildrenVal}</span>
-
+          <br></br>
             <p>
               <button id="btn-submit" type="submit">
                 ENVIAR
