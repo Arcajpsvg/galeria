@@ -35,12 +35,27 @@ class ValidatorFormEvents {
     return this;
   }
 
+  isNotZero(msg) {
+    if (this.value == 0) {
+      this.result.push(msg);
+    }
+    return this;
+  }
+
   isMayus(msg) {
     const regex = /^[A-Z]/;
 
     if (!regex.test(this.value)) {
       this.result.push(msg);
     }
+  }
+
+  isURL(msg) {
+    if (!/\.(jpeg|jpg|gif|png)$/.test(this.value)) {
+      this.result.push(msg);
+    }
+
+    return this;
   }
 
   isFormat(msg) {

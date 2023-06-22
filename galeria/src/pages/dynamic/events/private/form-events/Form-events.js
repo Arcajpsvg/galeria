@@ -1,5 +1,6 @@
 import { Component } from "react";
 import ValidatorFormEvents from "./validator/ValidatorFormEvents";
+import "../../../styles/formstyles/FormStyles.css";
 
 class FormEvents extends Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class FormEvents extends Component {
         eventoFormal: false,
         aptaMenores: false,
       },
-      validators: {
+      validations: {
         id: [],
         titulo: [],
         descripcion: [],
@@ -55,14 +56,13 @@ class FormEvents extends Component {
   saveEvent(event) {
     window.localStorage("eventos", event);
     alert(this.state.titulo + " ha sido añadido a la lista de eventos");
-    this.setState({});
   }
 
   validateTitle = (titulo) => {
     const validatorName = new ValidatorFormEvents(titulo);
 
     return validatorName
-      .isRequired("Titulo requerido")
+      .isRequired("Titulo requerido, ")
       .isLenght(3, 50, "Debe contener entre 3 y 50 caracteres").result;
   };
 
@@ -70,7 +70,7 @@ class FormEvents extends Component {
     const validatorDescription = new ValidatorFormEvents(description);
 
     return validatorDescription
-      .isRequired("Descripción requerida")
+      .isRequired("Descripción requerida, ")
       .isLenght(10, 500, "Debe contener entre 10 y 500 caracteres").result;
   };
 
@@ -78,6 +78,20 @@ class FormEvents extends Component {
     const validatorRadioButton = new ValidatorFormEvents(radioButton);
 
     return validatorRadioButton.isNotEmpty("Debes marcar una opción").result;
+  };
+
+  validateNumberPicker = (numberPicker) => {
+    const validatorNumberPicker = new ValidatorFormEvents(numberPicker);
+
+    return validatorNumberPicker.isNotZero("Debes marcar un mínimo").result;
+  };
+
+  validateImage = (image) => {
+    const validatorImage = new ValidatorFormEvents(image);
+
+    return validatorImage
+      .isRequired("Imagen requerida, ")
+      .isURL("No es una url válida").result;
   };
 
   validateAll = () => {
@@ -106,9 +120,12 @@ class FormEvents extends Component {
     validations.descripcion = this.validateDescription(descripcion);
     validations.eventoFormal = this.validateRadioButton(eventoFormal);
     validations.aptaMenores = this.validateRadioButton(aptaMenores);
+    validations.aforoInvitados = this.validateNumberPicker(aforoInvitados);
+    validations.precio = this.validateNumberPicker(precio);
+    validations.imagen = this.validateImage(imagen);
 
     const validationmessages = Object.values(validations).filter(
-      (msg) => msg.length > 0
+      (message) => message.length > 0
     );
 
     const isValid = !validationmessages.length;
@@ -132,7 +149,7 @@ class FormEvents extends Component {
       precio: priceVal,
       eventoFormal: formalEventVal,
       aptaMenores: suitableChildrenVal,
-    } = this.state.validators;
+    } = this.state.validations;
 
     return (
       <>
@@ -144,57 +161,57 @@ class FormEvents extends Component {
           <form id="form" onSubmit={this.handleSubmit}>
             <p>
               <label>
-                Titulo
                 <input
                   className="text-input"
                   type="text"
                   name="titulo"
                   value={titulo}
                   onChange={this.handleChange}
+                  placeholder="Titulo"
                 ></input>
               </label>
             </p>
             <span>{titleVal}</span>
             <p>
               <label>
-                Descripción
                 <input
                   className="text-input"
                   type="text"
                   name="descripcion"
                   value={descripcion}
                   onChange={this.handleChange}
+                  placeholder="Descripción"
                 ></input>
               </label>
             </p>
             <span>{descriptionVal}</span>
             <p>
               <label>
-                Imagen URL
                 <input
                   className="url-input"
                   type="text"
                   name="imagen"
                   value={imagen}
                   onChange={this.handleChange}
+                  placeholder="Imagen URL"
                 ></input>
               </label>
             </p>
+            <span>{imageVal}</span>
             <p>
               <label>
-                Fecha
                 <input
                   id="date-input"
                   type="date"
                   name="fecha"
                   value={fecha}
                   onChange={this.handleChange}
+                  placeholder="Fecha"
                 ></input>
               </label>
             </p>
             <p>
               <label>
-                Aforo invitados
                 <input
                   className="number-input"
                   type="number"
@@ -202,11 +219,12 @@ class FormEvents extends Component {
                   value={aforoInvitados}
                   onChange={this.handleChange}
                 ></input>
+                Aforo invitados
               </label>
             </p>
+            <span>{guestsVal}</span>
             <p>
               <label>
-                Precio
                 <input
                   className="number-input"
                   type="number"
@@ -214,12 +232,12 @@ class FormEvents extends Component {
                   value={precio}
                   onChange={this.handleChange}
                 ></input>
+                 Precio
               </label>
             </p>
-            <span>{guestsVal}</span>
-
+            <span>{priceVal}</span>
             <br></br>
-            <strong>¿Se trata de un evento formal?</strong>
+            <p>¿Se trata de un evento formal?</p>
             <p>
               <label>
                 <input
@@ -229,10 +247,9 @@ class FormEvents extends Component {
                   value="Formal"
                   onChange={this.handleChange}
                 ></input>
-                Evento formal
+                Sí
               </label>
               <br></br>
-
               <label>
                 <input
                   className="radio-input"
@@ -241,13 +258,13 @@ class FormEvents extends Component {
                   value="Informal"
                   onChange={this.handleChange}
                 ></input>
-                Evento informal
+               No
               </label>
             </p>
             <span>{formalEventVal}</span>
 
             <br></br>
-            <strong>¿Es apta para menores?</strong>
+            <p>¿Es apta para menores?</p>
             <p>
               <label>
                 <input
@@ -257,7 +274,7 @@ class FormEvents extends Component {
                   value="Apta"
                   onChange={this.handleChange}
                 ></input>
-                Si
+                Sí
               </label>
               <br></br>
 
@@ -273,7 +290,7 @@ class FormEvents extends Component {
               </label>
             </p>
             <span>{suitableChildrenVal}</span>
-
+          <br></br>
             <p>
               <button id="btn-submit" type="submit">
                 ENVIAR

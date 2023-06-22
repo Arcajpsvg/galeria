@@ -1,6 +1,8 @@
 import { Component } from "react";
 import ValidatorArchitecture from "./validators/ValidatorFormArchitecture";
 import './ArchiForm.css';
+import '../../../styles/formstyles/FormStyles.css';
+
 export default class ArchiForm extends Component{
 
 constructor(props){
