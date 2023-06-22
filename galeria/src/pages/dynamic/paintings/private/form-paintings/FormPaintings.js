@@ -116,7 +116,8 @@ class FormPaintings extends Component {
 
   validatePrecio = (precio) => {
     const validatorPrecio = new ValidatorFormPaintings(precio);
-    return validatorPrecio.isEmail("Debe tener formato email").result;
+   // return validatorPrecio.isValidPrice("Debe tener un valor válido").result;
+   return validatorPrecio.isFormat("Formato erroneo").result;
   };
   validateEstilo = (estilo) => {
     const validatorEstilo = new ValidatorFormPaintings(estilo);

@@ -1,0 +1,14 @@
+.painting_post{
+    margin: 0 auto;
+    width: 50%;
+    text-align: center;
+}
+#pass{
+    display: block;
+    margin:auto;
+
+}
+#painting_list_header h1{
+text-align: center;
+
+}

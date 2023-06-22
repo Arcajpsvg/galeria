@@ -20,22 +20,18 @@ class ValidatorFormPaintings{
         this.result.push(msg);
         return this;
     }
-    isEspecialChars(msg)
-    {
-        this.result.push(msg);
-        return this;
-    }
-    isStringNumero(numero, msg)
-    {
-        this.result.push(msg);
-        return this;
-    }
-    isStringMayusculas(numero, msg)
-    {
-        this.result.push(msg);
-        return this;
-    }
+    
 
+  /*  isValidPrice(msg) {
+       if(! /^(\$|)([1-9]\d{0,2}(\,\d{3})*|([1-9]\d*))(\.\d{2})?$/.test(this.value)){
+        this.result.push(msg);
+       }}*/
+
+   /* isValidDate(msg){
+        if(! /^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(this.value)){
+            this.result.push(msg);
+    }
+}*/ 
     isNotEmpty(msg)
     {
         if(!this.value)
@@ -45,7 +41,7 @@ class ValidatorFormPaintings{
        
         return this;
     }
-    //Longitudes
+   
     isLength(minLen,maxLen, msg)
     {
         if(this.value.length < minLen || this.value.length > maxLen)
@@ -54,23 +50,7 @@ class ValidatorFormPaintings{
         }
         return this;
     }
-    //emails
-    isEmail(msg)
-    {
-        if(!/\S+@\S+\.\S+/.test(this.value))
-        {
-            this.result.push(msg);
-        }
-        return this;
-    }
-    //requerido
-    isRequired(msg)
-    {
-        if(this.value.length == 0){
-            this.result.push(msg);
-        }
-        return this;
-    }
+
 }
 
 export default ValidatorFormPaintings;
