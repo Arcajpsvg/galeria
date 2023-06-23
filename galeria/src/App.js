@@ -25,7 +25,6 @@ function App() {
         <Route path="/archiprivate" element={<ArchiForm />}></Route>
         <Route path="/events" element={<ListEvents></ListEvents>}></Route>
         <Route path="/eventsform" element={<FormEvents></FormEvents>}></Route>
-        <Route path="*" element={<NotFound />}></Route>
         <Route path="/paintings" element={<ListPaintings />}></Route>
         <Route path="/paintingsprivate" element={<FormPaintings />}></Route>
         <Route path="*" element={<NotFound />}></Route>
