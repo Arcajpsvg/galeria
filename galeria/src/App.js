@@ -11,7 +11,7 @@ import Footer from "./layout/footer/Footer";
 import FormEvents from "./pages/dynamic/events/private/form-events/Form-events";
 import ListPaintings from "./pages/dynamic/paintings/public/ListPaintings";
 import FormPaintings from "./pages/dynamic/paintings/private/form-paintings/FormPaintings";
-import ListEvents from "./pages/dynamic/events/private/list-events/List-events";
+import ListEvents from "./pages/dynamic/events/public/List-events";
 
 function App() {
   return (

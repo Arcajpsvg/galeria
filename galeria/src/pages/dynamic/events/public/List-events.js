@@ -1,5 +1,4 @@
-import { Component } from "react";
-import events from "../../datagen/EventData";
+import events from "../datagen/EventData";
 import { Link } from "react-router-dom";
 import "./List-events.css";
 

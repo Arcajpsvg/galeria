@@ -153,15 +153,14 @@ class FormEvents extends Component {
 
     return (
       <>
-        <section>
+        <section id="form-container-events">
           <header>
             <h2>Formulario eventos</h2>
           </header>
 
           <form id="form" onSubmit={this.handleSubmit}>
             <p>
-              <div className="input">
-                <label>Titulo</label>
+              <label>
                 <input
                   className="text-input"
                   type="text"
@@ -170,7 +169,7 @@ class FormEvents extends Component {
                   onChange={this.handleChange}
                   placeholder="Titulo"
                 ></input>
-              </div>
+              </label>
             </p>
             <span>{titleVal}</span>
             <p>
@@ -298,7 +297,7 @@ class FormEvents extends Component {
               </button>
             </p>
           </form>
-          <pre>{JSON.stringify(this.state.values)}</pre>
+          {/* <pre>{JSON.stringify(this.state.values)}</pre> */}
         </section>
       </>
     );
