@@ -2,6 +2,8 @@ import { Component } from "react";
 import ValidatorArchitecture from "./validators/ValidatorFormArchitecture";
 import './ArchiForm.css';
 import '../../../styles/formstyles/FormStyles.css';
+import places from './../../datagen/ArchiData';
+
 export default class ArchiForm extends Component{
 
 constructor(props){
@@ -10,6 +12,8 @@ constructor(props){
     super(props);
     this.state = {values: {name: '', description: '', constructionYear: '', author: '', location: ''}, 
     validations: {name: '', description: '', constructionYear: '', author: '', location: ''}};
+    this.listItems = [];
+
 }
 
 handleChange = (e) => {
@@ -27,15 +31,34 @@ handleChange = (e) => {
 }
 
 handleSubmit = (e) => {
-    e.preventDefault(); //para el submit
+    e.preventDefault(); 
     //llama a la función de validar todo mediante los objetos Validator. En caso de devolver falso, bloquea la 
     //siguiente funcionalidad del submit.
+    //si no existe 'listArchi' en el localStorage, guarda los valores en la lista del constructor, lo pasa a
+    //json stringify y lo guarda en localStorage creando 'listArchi'.
+    //en caso de existir, utiliza array from y json parse para extraer el array de objetos de localStorage,
+    //mete dentro de dicho array los valores del formulario y lo vuelve a pasar a string y guardarlo en localStorage.
+    //el id es igual a la siguiente posición a las ya cubiertas de la combinación entre el array sacado del faker y el sacado de
+    //localStorage
     const isValid = this.validateAll();
     if(!isValid){
         return false;
     }
-    const values = JSON.stringify(this.state);
-    console.log(values);
+    if(localStorage.getItem('listArchi')){
+        let arreglo = Array.from(JSON.parse(localStorage.getItem('listArchi')));
+        let id =  places.concat(arreglo).length;
+        arreglo.push({...this.state.values, id});
+        localStorage.setItem('listArchi', JSON.stringify(arreglo));
+    }else{
+    const values = this.state.values;
+    let id =  places.length;
+    this.listItems.push({...values, id});
+    let jsonList = JSON.stringify(this.listItems);
+    localStorage.setItem('listArchi', jsonList);
+    }
+    
+
+    
 }
 
 //validara todo el formulario, devolvera true o false.
@@ -126,33 +149,33 @@ render(){
                         <input type="text" name="name" value={name} onChange={this.handleChange}/>
                     </label>
                 </p>
-                <span class='error-control'>{nameVal}</span>
+                <span className='error-control'>{nameVal}</span>
                 <p>
                     <label>Description
                         <textarea name="description" value={description} onChange={this.handleChange}/>
                     </label>
                 </p>
-                <span class='error-control'>{descVal}</span>
+                <span className='error-control'>{descVal}</span>
                 <p>
                     <label>Year of construction
                         <input type="number" name="constructionYear" value={constructionYear} onChange={this.handleChange}/>
                     </label>
                 </p>
-                <span class='error-control'>{yearVal}</span>
+                <span className='error-control'>{yearVal}</span>
 
                 <p>
                     <label>Author
                         <input type="text" name="author" value={author} onChange={this.handleChange}/>
                     </label>
                 </p>
-                <span class='error-control'>{authorVal}</span>
+                <span className='error-control'>{authorVal}</span>
 
                 <p>
                     <label>Location
                         <input type="text" name="location" value={location} onChange={this.handleChange}/>
                     </label>
                 </p>
-                <span class='error-control'>{locationVal}</span>
+                <span className='error-control'>{locationVal}</span>
 
                 <button type="submit">Enviar</button>
             </form>
