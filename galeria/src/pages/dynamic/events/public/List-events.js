@@ -3,6 +3,11 @@ import { Link } from "react-router-dom";
 import "./List-events.css";
 
 export default function ListEvents() {
+  let storageEvents = localStorage.getItem("events")
+    ? Array.from(JSON.parse(localStorage.getItem("events")))
+    : [];
+  let finalEventList = events.concat(storageEvents);
+
   return (
     <section>
       <header>
@@ -16,11 +21,12 @@ export default function ListEvents() {
         </button>
       </div>
       <div id="list-events-container">
-        {events.map((event) => (
+        {finalEventList.map((event) => (
           <article key={event.id}>
             <header>
               <h2>{event.titulo}</h2>
             </header>
+            <img width="400px" src={event.imagen}></img>
             <p>{event.descripcion}</p>
           </article>
         ))}
