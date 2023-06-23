@@ -29,8 +29,8 @@ class FormEvents extends Component {
         aptaMenores: [],
       },
     };
+    this.events = [];
   }
-  events = [];
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,6 +38,7 @@ class FormEvents extends Component {
       values: {
         ...this.state.values,
         [name]: value,
+        id: this.events.length,
       },
     });
   };
@@ -48,14 +49,28 @@ class FormEvents extends Component {
     if (!isValid) {
       return false;
     }
-    const eventValues = JSON.stringify(this.state);
-    console.log(eventValues);
-    this.saveEvent(eventValues);
+    console.log(this.state.values);
+    this.saveEvent();
   };
 
-  saveEvent(event) {
-    window.localStorage("eventos", event);
-    alert(this.state.titulo + " ha sido añadido a la lista de eventos");
+  saveEvent() {
+    if (localStorage.getItem("events")) {
+      // extraer la lista de localstorage
+      this.events = Array.from(JSON.parse(localStorage.getItem("events")));
+      console.log(this.events);
+      this.events.push(this.state.values);
+      let storageList = JSON.stringify(this.events);
+      localStorage.setItem("events", storageList);
+    } else {
+      this.events.push(this.state.values);
+      let jsonList = JSON.stringify(this.events);
+      localStorage.setItem("events", jsonList);
+    }
+    alert(this.state.values.titulo + " ha sido añadido a la lista de eventos");
+
+    this.setState({
+      ...this.state.values,
+    });
   }
 
   validateTitle = (titulo) => {
@@ -153,15 +168,14 @@ class FormEvents extends Component {
 
     return (
       <>
-        <section>
+        <section id="form-container-events">
           <header>
             <h2>Formulario eventos</h2>
           </header>
 
           <form id="form" onSubmit={this.handleSubmit}>
             <p>
-              <div className="input">
-                <label>Titulo</label>
+              <label>
                 <input
                   className="text-input"
                   type="text"
@@ -170,7 +184,7 @@ class FormEvents extends Component {
                   onChange={this.handleChange}
                   placeholder="Titulo"
                 ></input>
-              </div>
+              </label>
             </p>
             <span>{titleVal}</span>
             <p>
@@ -298,7 +312,7 @@ class FormEvents extends Component {
               </button>
             </p>
           </form>
-          <pre>{JSON.stringify(this.state.values)}</pre>
+          {/* <pre>{JSON.stringify(this.state.values)}</pre> */}
         </section>
       </>
     );

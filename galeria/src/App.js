@@ -7,14 +7,11 @@ import NotFound from "./pages/static/notFound/NotFound";
 import ArchiList from "./pages/dynamic/architecture/public/ArchiList";
 import ArchiForm from "./pages/dynamic/architecture/private/ArchiForm/ArchiForm";
 import About from "./pages/static/about/About";
-import Events from "./pages/dynamic/events/Events";
 import Footer from "./layout/footer/Footer";
 import FormEvents from "./pages/dynamic/events/private/form-events/Form-events";
 import ListPaintings from "./pages/dynamic/paintings/public/ListPaintings";
-import Footer from "./layout/footer/Footer"
-import FormPaintings from './pages/dynamic/paintings/private/form-paintings/FormPaintings';
-
-
+import FormPaintings from "./pages/dynamic/paintings/private/form-paintings/FormPaintings";
+import ListEvents from "./pages/dynamic/events/public/List-events";
 
 function App() {
   return (
@@ -26,12 +23,12 @@ function App() {
         <Route path="/about" element={<About />}></Route>
         <Route path="/architecture" element={<ArchiList />}></Route>
         <Route path="/archiprivate" element={<ArchiForm />}></Route>
-        <Route path="/events" element={<Events></Events>}></Route>
+        <Route path="/events" element={<ListEvents></ListEvents>}></Route>
         <Route path="/eventsform" element={<FormEvents></FormEvents>}></Route>
         <Route path="*" element={<NotFound />}></Route>
-         <Route path="/paintings" element={<ListPaintings />}></Route>
-         <Route path='/paintingsprivate' element={<FormPaintings />}></Route>
-      <Route path='*' element={<NotFound />}></Route>
+        <Route path="/paintings" element={<ListPaintings />}></Route>
+        <Route path="/paintingsprivate" element={<FormPaintings />}></Route>
+        <Route path="*" element={<NotFound />}></Route>
       </Routes>
       <Footer></Footer>
     </Router>
