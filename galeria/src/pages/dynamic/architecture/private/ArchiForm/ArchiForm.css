@@ -5,3 +5,16 @@
     padding: 1em;
     width: 50%;
 }
+
+input{
+    margin-left: 1em;
+}
+
+textarea{
+    margin-left: 1em;
+}
+
+#form-article main form button{
+    margin: auto;
+    margin-top: 2em;
+}

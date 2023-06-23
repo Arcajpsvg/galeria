@@ -8,9 +8,13 @@ import ArchiList from "./pages/dynamic/architecture/public/ArchiList";
 import ArchiForm from "./pages/dynamic/architecture/private/ArchiForm/ArchiForm";
 import About from "./pages/static/about/About";
 import Events from "./pages/dynamic/events/Events";
-import Paintings from "./pages/dynamic/paintings/Paintings";
 import Footer from "./layout/footer/Footer";
 import FormEvents from "./pages/dynamic/events/private/form-events/Form-events";
+import ListPaintings from "./pages/dynamic/paintings/public/ListPaintings";
+import Footer from "./layout/footer/Footer"
+import FormPaintings from './pages/dynamic/paintings/private/form-paintings/FormPaintings';
+
+
 
 function App() {
   return (
@@ -24,8 +28,10 @@ function App() {
         <Route path="/archiprivate" element={<ArchiForm />}></Route>
         <Route path="/events" element={<Events></Events>}></Route>
         <Route path="/eventsform" element={<FormEvents></FormEvents>}></Route>
-        <Route path="/paintings" element={<Paintings></Paintings>}></Route>
         <Route path="*" element={<NotFound />}></Route>
+         <Route path="/paintings" element={<ListPaintings />}></Route>
+         <Route path='/paintingsprivate' element={<FormPaintings />}></Route>
+      <Route path='*' element={<NotFound />}></Route>
       </Routes>
       <Footer></Footer>
     </Router>
