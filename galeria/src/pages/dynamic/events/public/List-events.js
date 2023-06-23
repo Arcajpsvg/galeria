@@ -9,25 +9,27 @@ export default function ListEvents() {
   let finalEventList = events.concat(storageEvents);
 
   return (
-    <section>
-      <header>
+    <section id="list-events-container">
+      <header id="list-events-header">
         <h1>Lista de eventos</h1>
-      </header>
-      <div id="btn-create-events">
+        <div id="btn-create-events">
         <button value="crear-evento">
           <Link id="link" to="/eventsform">
             CREAR EVENTO
           </Link>
         </button>
       </div>
-      <div id="list-events-container">
+      </header>
+      
+      <div id="list-events">
         {finalEventList.map((event) => (
-          <article key={event.id}>
+          <article id="event-card" key={event.id}>
             <header>
               <h2>{event.titulo}</h2>
               <img width="400px" src={event.imagen}></img>
             </header>
             <p>{event.descripcion}</p>
+            <br></br>
             <strong>Precio: {String(event.precio)}</strong>
             <br></br>
             <small>Aforo máximo: {event.aforoInvitados}</small>
