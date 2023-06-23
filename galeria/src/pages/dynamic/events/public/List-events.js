@@ -25,9 +25,18 @@ export default function ListEvents() {
           <article key={event.id}>
             <header>
               <h2>{event.titulo}</h2>
+              <img width="400px" src={event.imagen}></img>
             </header>
-            <img width="400px" src={event.imagen}></img>
             <p>{event.descripcion}</p>
+            <strong>Precio: {String(event.precio)}</strong>
+            <br></br>
+            <small>Aforo máximo: {event.aforoInvitados}</small>
+            <br></br>
+            <small>Evento: {event.eventoFormal}</small>
+            <br></br>
+            <small>Apta para menores: {event.aptaMenores}</small>
+            <br></br>
+             <small>Fecha: {String(event.fecha)}</small>
           </article>
         ))}
       </div>
