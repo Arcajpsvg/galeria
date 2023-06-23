@@ -29,8 +29,8 @@ class FormEvents extends Component {
         aptaMenores: [],
       },
     };
+    this.events = [];
   }
-  events = [];
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,6 +38,7 @@ class FormEvents extends Component {
       values: {
         ...this.state.values,
         [name]: value,
+        id: this.events.length,
       },
     });
   };
@@ -48,14 +49,28 @@ class FormEvents extends Component {
     if (!isValid) {
       return false;
     }
-    const eventValues = JSON.stringify(this.state);
-    console.log(eventValues);
-    this.saveEvent(eventValues);
+    console.log(this.state.values);
+    this.saveEvent();
   };
 
-  saveEvent(event) {
-    window.localStorage("eventos", event);
-    alert(this.state.titulo + " ha sido añadido a la lista de eventos");
+  saveEvent() {
+    if (localStorage.getItem("events")) {
+      // extraer la lista de localstorage
+      this.events = Array.from(JSON.parse(localStorage.getItem("events")));
+      console.log(this.events);
+      this.events.push(this.state.values);
+      let storageList = JSON.stringify(this.events);
+      localStorage.setItem("events", storageList);
+    } else {
+      this.events.push(this.state.values);
+      let jsonList = JSON.stringify(this.events);
+      localStorage.setItem("events", jsonList);
+    }
+    alert(this.state.values.titulo + " ha sido añadido a la lista de eventos");
+
+    this.setState({
+      ...this.state.values,
+    });
   }
 
   validateTitle = (titulo) => {
