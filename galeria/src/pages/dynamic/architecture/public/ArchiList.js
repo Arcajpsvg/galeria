@@ -3,25 +3,23 @@ import './ArchiList.css';
 import {Link} from "react-router-dom";
 
 export default function ArchiList(){
-    console.log('places pone:', places);
-    let localArreglo = Array.from(JSON.parse(localStorage.getItem('listArchi')));
+    let localArreglo = localStorage.getItem('listArchi') ? Array.from(JSON.parse(localStorage.getItem('listArchi'))) : [];
     let arregloCombinado = places.concat(localArreglo);
-    console.log('el combinado pone', arregloCombinado);
     return(
     <section id="public-arch-list">
     <header>
         <h1>Lista de Edificaciones</h1>
     </header>
     {
-        arregloCombinado.map(post => 
-            <article key={post.id}>
+        arregloCombinado.map(edificacion => 
+            <article key={edificacion.id}>
                 <header>
-                    <h2>Name: {post.name}</h2>
+                    <h2>Name: {edificacion.name}</h2>
                 </header>
-                <p>Description: {post.description}</p>
-                <p>Location: {post.location}</p>
-                <p>Construction year: {post.constructionYear} {post.constructionYear < 0 ? 'BC' : 'AD'}</p>
-                <span>Author: {post.author}</span>
+                <p>Description: {edificacion.description}</p>
+                <p>Location: {edificacion.location}</p>
+                <p>Construction year: {edificacion.constructionYear} {edificacion.constructionYear < 0 ? 'BC' : 'AD'}</p>
+                <span>Author: {edificacion.author}</span>
 
             </article>)
     }
