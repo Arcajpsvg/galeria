@@ -7,6 +7,7 @@ class ListPaintings extends Component{
     render()
     {
         return(
+            
             <section>
                 <header id="painting_list_header">
                     <h1>Lista de Pinturas</h1>

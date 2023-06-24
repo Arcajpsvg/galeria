@@ -22,16 +22,20 @@ class ValidatorFormPaintings{
     }
     
 
-  /*  isValidPrice(msg) {
+   isValidPrice(msg) {
        if(! /^(\$|)([1-9]\d{0,2}(\,\d{3})*|([1-9]\d*))(\.\d{2})?$/.test(this.value)){
         this.result.push(msg);
-       }}*/
+       }
+    return this;
+    }
 
-   /* isValidDate(msg){
-        if(! /^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(this.value)){
+     isValidDate(msg){
+        if(! /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/){
             this.result.push(msg);
     }
-}*/ 
+    return this;
+
+}
     isNotEmpty(msg)
     {
         if(!this.value)
