@@ -3,22 +3,29 @@ import ValidatorArchitecture from "./validators/ValidatorFormArchitecture";
 import './ArchiForm.css';
 import '../../../styles/formstyles/FormStyles.css';
 import places from './../../datagen/ArchiData';
+import PrivateArchiList2 from "../privateArchiList/PrivateArchiList2";
 
 export default class ArchiForm extends Component{
 
 constructor(props){
     //recibe props por temas que explicara mas adelante
     //el super es obligatorio por extender a componente, state coge los valores para el formulario y posibles validaciones.
+    //nowEditing se utiliza para manejar si el usuario está tratando de editar un elemento o creando uno nuevo.
+    //finishedEditing es para mostrar mensajes de feedback cuando se edita.
     super(props);
     this.state = {values: {name: '', description: '', constructionYear: '', author: '', location: ''}, 
     validations: {name: '', description: '', constructionYear: '', author: '', location: ''}};
     this.listItems = [];
+    this.nowEditing = false;
+    this.finishedEditing = false;
+   
 
 }
 
 handleChange = (e) => {
     //funcion sencilla para hacer double binding palero. Recibe el nombre y valor de aquello que se va a cambiar y lo pasa
     //al state.
+    this.finishedEditing = false;
     const {name, value} = e.target;
     this.setState(
         {
@@ -32,33 +39,75 @@ handleChange = (e) => {
 
 handleSubmit = (e) => {
     e.preventDefault(); 
-    //llama a la función de validar todo mediante los objetos Validator. En caso de devolver falso, bloquea la 
+    this.finishedEditing = false;
+
+    //Doble funcionalidad en caso de tratarse de un edit o un post.
+    
+    //en ambos casos: llama a la función de validar todo mediante los objetos Validator. En caso de devolver falso, bloquea la 
     //siguiente funcionalidad del submit.
-    //si no existe 'listArchi' en el localStorage, guarda los valores en la lista del constructor, lo pasa a
-    //json stringify y lo guarda en localStorage creando 'listArchi'.
+    
+    //En caso de post:
+    //si no existe 'listArchi' en el localStorage, guarda los valores en la lista del constructor, les da una id 
+    //similar a la length del array de elementos generador por faker y añade el nuevo objeto así creado a dicho array
+    //para guardar esa combinación en localStorage como 'listArchi'. No obstante, se inicializa 'listArchi' como el array de faker
+    //desde la lista pública de la página, así que este sería un caso extraño.
+
     //en caso de existir, utiliza array from y json parse para extraer el array de objetos de localStorage,
     //mete dentro de dicho array los valores del formulario y lo vuelve a pasar a string y guardarlo en localStorage.
-    //el id es igual a la siguiente posición a las ya cubiertas de la combinación entre el array sacado del faker y el sacado de
-    //localStorage
+    //el id es igual a la siguiente posición a las ya cubiertas del array de localStorage.
+    
     const isValid = this.validateAll();
     if(!isValid){
         return false;
     }
+    if(!this.nowEditing){
     if(localStorage.getItem('listArchi')){
         let arreglo = Array.from(JSON.parse(localStorage.getItem('listArchi')));
-        let id =  places.concat(arreglo).length;
+        let id = arreglo.length+1;
         arreglo.push({...this.state.values, id});
         localStorage.setItem('listArchi', JSON.stringify(arreglo));
     }else{
     const values = this.state.values;
-    let id =  places.length;
+    let id =  places.length+1;
     this.listItems.push({...values, id});
+    this.listItems = places.concat(this.listItems);
     let jsonList = JSON.stringify(this.listItems);
     localStorage.setItem('listArchi', jsonList);
     }
-    
+}else{
+    //en caso de edit:
+    //Toma el array de localStorage, itera hasta conseguir el id que se desea editar y le asigna los campos nuevos.
+    //Devuelve la variable de editar a falso y guarda el array otra vez en localStorage.
+    let arreglo = Array.from(JSON.parse(localStorage.getItem('listArchi')));
 
-    
+    arreglo.forEach((element)=>{
+        if(element.id === this.state.values.id){
+        element.name = this.state.values.name;
+        element.description = this.state.values.description;
+        element.constructionYear = this.state.values.constructionYear;
+        element.author = this.state.values.author;
+        element.location = this.state.values.location;
+    }
+});
+localStorage.setItem('listArchi', JSON.stringify(arreglo));
+this.nowEditing = false;
+
+
+}
+}
+
+//este método se pasa a la lista privada de arquitectura para que utilice como onClick. Pasa la variable nowEditing a verdadera
+//para modificar la funcionalidad del formulario, recupera el array de edificios del localStorage y toma el edificio concreto
+//que se está editando de dicho array a través de su id. Acto seguido, pasa todos los valores del state (y por ende del formulario)
+//a los que tenía ese edificio para poder proceder a su modificación. 
+editBuilding = (id) => {
+    this.nowEditing = true;
+    let arreglo = Array.from(JSON.parse(localStorage.getItem('listArchi')));
+    let editThis = arreglo.filter((element)=>element.id === id)[0];
+    console.log('editando:', editThis);
+    this.setState({values:{id: editThis.id, name: editThis.name, description: editThis.description, 
+        constructionYear: editThis.constructionYear, author: editThis.author, location: editThis.location}, ...this.state.validations});
+        console.log('nowEditing es', this.nowEditing);
 }
 
 //validara todo el formulario, devolvera true o false.
@@ -130,14 +179,14 @@ validateLocation = (location) =>{
 
 render(){
     //esto crea el formulario, lo une al state y prepara spans para mostrar mensajes de error.
-   let {name, description, constructionYear, author, location} = this.state;
+   let {name, description, constructionYear, author, location} = this.state.values;
    const { name: nameVal,
     description: descVal,
     constructionYear: yearVal,
     author: authorVal,
     location: locationVal
 } = this.state.validations;
-   return(
+   return(<>
     <article id="form-article">
         <header>
             <h1>Architecture form</h1>
@@ -177,12 +226,21 @@ render(){
                 </p>
                 <span className='error-control'>{locationVal}</span>
 
-                <button type="submit">Enviar</button>
+                <button type="submit">{this.nowEditing ? 'Edit building' : 'Create building'}</button>
             </form>
-    
+            <p>{this.finishedEditing ? 'Element edited successfully!' : null}</p>
         </main>
 
     </article>
+    <article id='list-article'>
+        <header>
+            <h1>Architecture Control List</h1>
+            </header>
+            <main>
+                <PrivateArchiList2 editBuilding={this.editBuilding}/>
+            </main>
+    </article>
+    </>
    )
 }
 
