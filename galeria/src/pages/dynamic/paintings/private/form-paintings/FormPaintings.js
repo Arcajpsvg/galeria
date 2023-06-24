@@ -1,6 +1,7 @@
 import { Component } from "react";
 import ValidatorFormPaintings from "../form-paintings/validators-form-painting/Validator-form-Paintings";
 import "../../../styles/formstyles/FormStyles.css";
+import PostP from './../../datagen/PostP';
 
 class FormPaintings extends Component {
   constructor(props) {
@@ -26,9 +27,10 @@ class FormPaintings extends Component {
         estilo: "",
       },
     };
+    this.paintingList = [];
   }
 
-  events = [];
+ 
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,10 +48,19 @@ class FormPaintings extends Component {
     if (!isValid) {
       return false;
     }
-    const values = JSON.stringify(this.state);
-    console.log(values);
-    alert(this.state.titulo + " pintura añadida");
-    window.localStorage("pinturas", values);
+   if(localStorage.getItem('paintingList')){
+    let arrap = Array.from(JSON.parse(localStorage.getItem('paintingList')));
+    let id= PostP.concat(arrap).length;
+    arrap.push({...this.state.values, id});
+    localStorage.setItem('paintingList', JSON.stringify(arrap));
+   }else{
+    let values = this.state.values;
+    let id =  PostP.length;
+    this.paintingList.push({...values, id});
+    let jsonList = JSON.stringify(this.paintingList);
+    localStorage.setItem('paintingList', jsonList);
+    }
+   
   };
 
   validateAll = () => {
@@ -111,13 +122,13 @@ class FormPaintings extends Component {
 
   validateFecha = (fecha) => {
     const validatorFecha = new ValidatorFormPaintings(fecha);
-    return validatorFecha.isFormat("Formato erroneo").result;
+    return validatorFecha.isValidDate("Formato erroneo").result;
   };
 
   validatePrecio = (precio) => {
     const validatorPrecio = new ValidatorFormPaintings(precio);
-   // return validatorPrecio.isValidPrice("Debe tener un valor válido").result;
-   return validatorPrecio.isFormat("Formato erroneo").result;
+    return validatorPrecio.isValidPrice("Debe tener un valor válido").result;
+
   };
   validateEstilo = (estilo) => {
     const validatorEstilo = new ValidatorFormPaintings(estilo);
