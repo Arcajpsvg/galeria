@@ -3,15 +3,20 @@ import './ArchiList.css';
 import {Link} from "react-router-dom";
 
 export default function ArchiList(){
-    let localArreglo = localStorage.getItem('listArchi') ? Array.from(JSON.parse(localStorage.getItem('listArchi'))) : [];
-    let arregloCombinado = places.concat(localArreglo);
+    if(!localStorage.getItem('listArchi')){
+        let jsonList = JSON.stringify(places);
+        localStorage.setItem('listArchi', jsonList);
+        }
+    let localArreglo = JSON.parse(localStorage.getItem('listArchi')) || [];
+  
+
     return(
     <section id="public-arch-list">
     <header>
         <h1>Lista de Edificaciones</h1>
     </header>
     {
-        arregloCombinado.map(edificacion => 
+        localArreglo.map(edificacion => 
             <article key={edificacion.id}>
                 <header>
                     <h2>Name: {edificacion.name}</h2>
