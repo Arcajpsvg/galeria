@@ -7,9 +7,15 @@ events = events.map((ev) => {
     id: ev,
     titulo: faker.lorem.sentence(),
     descripcion: faker.lorem.sentences(10),
-    fecha: faker.date.anytime(),
-    aforoInvitados: faker.number.int,
-    precio: faker.number.float,
+    fecha: faker.date.between({
+      from: "2020-01-01T00:00:00.000Z",
+      to: "2030-01-01T00:00:00.000Z",
+    }),
+    aforoInvitados: faker.number.int({ min: 20, max: 500 }),
+    precio: faker.datatype.float({ max: 100 }),
+    imagen: faker.image.url({ width: 300, height: 220 }),
+    eventoFormal: "Formal",
+    aptaMenores: faker.datatype.boolean({ probability: 0.5 }),
   };
 });
 

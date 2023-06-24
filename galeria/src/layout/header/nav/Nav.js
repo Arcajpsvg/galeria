@@ -1,4 +1,6 @@
 import {Link} from "react-router-dom";
+import logo from "../../../assets/imgs/logo.png"
+import "./Nav.css";
 
 function Nav() {
   return (
@@ -7,7 +9,7 @@ function Nav() {
         <ul>
           <li>
             <Link to="/">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/00/Logo_museum_2017.png"></img>
+                <img id="img-logo" src={logo}></img>
             </Link>
           </li>
           <li>
@@ -28,7 +30,7 @@ function Nav() {
         </ul>
         <ul id="nav-login">
           <li>
-            <Link to="/login">Login</Link>
+            <Link to="/login"><i class="fa fa-user-circle" aria-hidden="true"></i></Link>
           </li>
         </ul>
       </nav>

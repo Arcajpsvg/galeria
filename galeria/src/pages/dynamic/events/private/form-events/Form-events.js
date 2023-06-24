@@ -189,14 +189,14 @@ class FormEvents extends Component {
             <span>{titleVal}</span>
             <p>
               <label>
-                <input
+                <textarea
                   className="text-input"
                   type="text"
                   name="descripcion"
                   value={descripcion}
                   onChange={this.handleChange}
                   placeholder="Descripción"
-                ></input>
+                ></textarea>
               </label>
             </p>
             <span>{descriptionVal}</span>
