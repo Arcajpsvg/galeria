@@ -14,33 +14,4 @@ code {
 }
 
 
-/* Footer*/
 
-#footer {
-  background-color: whitesmoke;
-  display: flex;
-  justify-content: space-between;
-}
-
-#social img {
-  filter: grayscale(100%);
-  width: 40px;
-}
-#footer {
-  background-color: whitesmoke;
-  display: flex;
-  justify-content: space-between;
-}
-#footer p {
-  padding-left: 30px;
-  color: grey;
-}
-#social {
-  margin-right: 20px;
-}
-#social img {
-  width: 40px;
-  filter: grayscale(100%);
-  margin: 10px;
-  transition: transform 0.1s;
-}
