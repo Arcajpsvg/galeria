@@ -1,9 +1,16 @@
 #form-article{
     margin: 2em auto;
     text-align: center;
-    border: 1px solid black;
     padding: 1em;
     width: 50%;
+}
+
+
+
+#form-article main form{
+    margin-top: 2em;
+    border: 1px solid black;
+
 }
 
 input{
@@ -20,4 +27,13 @@ textarea{
 }
 #list-article{
     text-align: center;
+}
+
+.success-control{
+    padding: 1em;
+    border: 1px solid silver;
+    background-color: darkgreen;
+    border-radius: 12px;
+    color: whitesmoke;
+    margin-top: 2em;
 }

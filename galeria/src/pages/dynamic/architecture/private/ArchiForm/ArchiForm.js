@@ -11,13 +11,17 @@ constructor(props){
     //recibe props por temas que explicara mas adelante
     //el super es obligatorio por extender a componente, state coge los valores para el formulario y posibles validaciones.
     //nowEditing se utiliza para manejar si el usuario está tratando de editar un elemento o creando uno nuevo.
-    //finishedEditing es para mostrar mensajes de feedback cuando se edita.
+    //finishedEditing es para mostrar mensajes de feedback cuando se edita. FinishedPosting para crear elementos.
+    //showForm maneja la visibilidad de la lista y el formulario.
     super(props);
     this.state = {values: {name: '', description: '', constructionYear: '', author: '', location: ''}, 
-    validations: {name: '', description: '', constructionYear: '', author: '', location: ''}};
+    validations: {name: '', description: '', constructionYear: '', author: '', location: ''},
+nowEditing: false,
+finishedEditing: false,
+finishedPosting: false,
+showForm: true};
     this.listItems = [];
-    this.nowEditing = false;
-    this.finishedEditing = false;
+   
    
 
 }
@@ -25,7 +29,7 @@ constructor(props){
 handleChange = (e) => {
     //funcion sencilla para hacer double binding palero. Recibe el nombre y valor de aquello que se va a cambiar y lo pasa
     //al state.
-    this.finishedEditing = false;
+    this.setState({validations: {...this.state.validations}, values:{...this.state.values}, showForm: this.state.showForm, finishedEditing: false, finishedPosting: false, nowEditing: this.state.nowEditing});
     const {name, value} = e.target;
     this.setState(
         {
@@ -39,7 +43,6 @@ handleChange = (e) => {
 
 handleSubmit = (e) => {
     e.preventDefault(); 
-    this.finishedEditing = false;
 
     //Doble funcionalidad en caso de tratarse de un edit o un post.
     
@@ -60,19 +63,23 @@ handleSubmit = (e) => {
     if(!isValid){
         return false;
     }
-    if(!this.nowEditing){
+    if(!this.state.nowEditing){
     if(localStorage.getItem('listArchi')){
         let arreglo = Array.from(JSON.parse(localStorage.getItem('listArchi')));
-        let id = arreglo.length+1;
+        let id = arreglo.length;
         arreglo.push({...this.state.values, id});
         localStorage.setItem('listArchi', JSON.stringify(arreglo));
+        this.setState({validations:{...this.state.validations}, values:{...this.state.values}, showForm: this.state.showForm, finishedEditing: false, finishedPosting: true, nowEditing: false});
+
     }else{
     const values = this.state.values;
-    let id =  places.length+1;
+    let id =  places.length;
     this.listItems.push({...values, id});
     this.listItems = places.concat(this.listItems);
     let jsonList = JSON.stringify(this.listItems);
     localStorage.setItem('listArchi', jsonList);
+    this.setState({validations:{...this.state.validations}, values:{...this.state.values}, showForm: this.state.showForm, finishedEditing: false, finishedPosting: true, nowEditing: false});
+
     }
 }else{
     //en caso de edit:
@@ -90,24 +97,36 @@ handleSubmit = (e) => {
     }
 });
 localStorage.setItem('listArchi', JSON.stringify(arreglo));
-this.nowEditing = false;
-
+this.setState({values: {name: '', description: '', constructionYear: '', author: '', location: ''}, 
+validations: {name: '', description: '', constructionYear: '', author: '', location: ''},
+nowEditing: false,
+finishedEditing: true,
+finishedPosting: false,
+showForm: this.state.showForm});
 
 }
+}
+//función sencilla para mostrar o esconder el formulario. Cuando no se ve el formulario, se ve la lista.
+handleShowForm = () => {
+    this.setState({validations:{...this.state.validations}, values:{...this.state.values}, showForm: !this.state.showForm, finishedEditing: this.state.finishedEditing, finishedPosting: this.state.finishedPosting, nowEditing: this.state.nowEditing});
 }
 
 //este método se pasa a la lista privada de arquitectura para que utilice como onClick. Pasa la variable nowEditing a verdadera
 //para modificar la funcionalidad del formulario, recupera el array de edificios del localStorage y toma el edificio concreto
 //que se está editando de dicho array a través de su id. Acto seguido, pasa todos los valores del state (y por ende del formulario)
 //a los que tenía ese edificio para poder proceder a su modificación. 
+//Además de lo anterior, muestra el formulario cuando se inicia el método.
 editBuilding = (id) => {
-    this.nowEditing = true;
-    let arreglo = Array.from(JSON.parse(localStorage.getItem('listArchi')));
-    let editThis = arreglo.filter((element)=>element.id === id)[0];
-    console.log('editando:', editThis);
-    this.setState({values:{id: editThis.id, name: editThis.name, description: editThis.description, 
-        constructionYear: editThis.constructionYear, author: editThis.author, location: editThis.location}, ...this.state.validations});
-        console.log('nowEditing es', this.nowEditing);
+    
+    this.setState({validations:{...this.state.validations}, values:{...this.state.values}, showForm: true,  finishedEditing: this.state.finishedEditing, finishedPosting: this.state.finishedPosting, nowEditing: true}
+       //el resto del código se pasa como una función callback aquí para evitar que los dos setStates se pisen.
+        ,()=>{let arreglo = Array.from(JSON.parse(localStorage.getItem('listArchi')));
+        let editThis = arreglo.filter((element)=>element.id === id)[0];
+        console.log('editando:', editThis);
+        this.setState({values:{id: editThis.id, name: editThis.name, description: editThis.description, 
+            constructionYear: editThis.constructionYear, author: editThis.author, location: editThis.location}, ...this.state.validations, showForm: this.state.showForm, nowEditing: true, finishedPosting: false, finishedEditing: false});
+           ;},);
+    
 }
 
 //validara todo el formulario, devolvera true o false.
@@ -177,8 +196,22 @@ validateLocation = (location) =>{
    }
 
 
+cancelEdit = () => {
+//esta función se utiliza para cancelar la edición en curso, devuelve el state a su estado original.
+    this.setState({values: {name: '', description: '', constructionYear: '', author: '', location: ''}, 
+    validations: {name: '', description: '', constructionYear: '', author: '', location: ''},
+nowEditing: false,
+finishedEditing: false,
+finishedPosting: false,
+showForm: this.state.showForm});
+}
+
 render(){
     //esto crea el formulario, lo une al state y prepara spans para mostrar mensajes de error.
+    //se muestra el formulario o la lista según la variable del state 'showForm'.
+    //algunos botones cambian en función de estar editando o no.
+    //se pasan como props las variables de finishedPosting y finishedEditing al componente de lista privada para rerenderizarla
+    //si hiciera falta
    let {name, description, constructionYear, author, location} = this.state.values;
    const { name: nameVal,
     description: descVal,
@@ -189,10 +222,11 @@ render(){
    return(<>
     <article id="form-article">
         <header>
-            <h1>Architecture form</h1>
+            <h1>Architecture Management</h1>
         </header>
         <main>
-            <form onSubmit={this.handleSubmit} id='form'>
+            <button id="form-show-button" onClick={this.handleShowForm}>{this.state.showForm ? 'Hide form' : 'Show form' }</button>
+            {this.state.showForm ? <form onSubmit={this.handleSubmit} id='form'>
                 <p>
                     <label>Name
                         <input type="text" name="name" value={name} onChange={this.handleChange}/>
@@ -226,20 +260,21 @@ render(){
                 </p>
                 <span className='error-control'>{locationVal}</span>
 
-                <button type="submit">{this.nowEditing ? 'Edit building' : 'Create building'}</button>
-            </form>
-            <p>{this.finishedEditing ? 'Element edited successfully!' : null}</p>
+                <button type="submit">{this.state.nowEditing ? 'Edit building' : 'Create building'}</button>
+                {this.state.nowEditing ? <button type="button" onClick={this.cancelEdit}>Cancel</button> : null}
+            </form> : null}
+            {this.state.finishedEditing || this.state.finishedPosting ? <p>{this.state.finishedEditing ? 'Element edited successfully!' : 'Element created successfully!'}</p> : null}
         </main>
 
     </article>
-    <article id='list-article'>
+   {!this.state.showForm ? <article id='list-article'>
         <header>
             <h1>Architecture Control List</h1>
             </header>
             <main>
-                <PrivateArchiList2 editBuilding={this.editBuilding}/>
+                <PrivateArchiList2 editBuilding={this.editBuilding} finishedEditing={this.state.finishedEditing} finishedPosting={this.state.finishedPosting}/>
             </main>
-    </article>
+    </article> : null }
     </>
    )
 }
