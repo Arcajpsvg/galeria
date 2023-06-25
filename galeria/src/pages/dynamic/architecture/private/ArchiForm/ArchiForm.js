@@ -263,7 +263,7 @@ render(){
                 <button type="submit">{this.state.nowEditing ? 'Edit building' : 'Create building'}</button>
                 {this.state.nowEditing ? <button type="button" onClick={this.cancelEdit}>Cancel</button> : null}
             </form> : null}
-            {this.state.finishedEditing || this.state.finishedPosting ? <p>{this.state.finishedEditing ? 'Element edited successfully!' : 'Element created successfully!'}</p> : null}
+            {this.state.finishedEditing || this.state.finishedPosting ? <p className='success-control'>{this.state.finishedEditing ? 'Element edited successfully!' : 'Element created successfully!'}</p> : null}
         </main>
 
     </article>
