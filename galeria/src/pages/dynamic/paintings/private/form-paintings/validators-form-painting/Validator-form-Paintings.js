@@ -30,12 +30,12 @@ class ValidatorFormPaintings{
     }
 
      isValidDate(msg){
-        if(! /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/){
+        if(this.value > new Date().getFullYear() || this.value<500){
             this.result.push(msg);
+        }
+        return this;
     }
-    return this;
-
-}
+ 
     isNotEmpty(msg)
     {
         if(!this.value)

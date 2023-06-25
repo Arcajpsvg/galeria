@@ -3,9 +3,14 @@ import PostP from "./../datagen/PostP";
 import './ListPaintings.css';
 import {Link, Outlet} from 'react-router-dom';
 
-class ListPaintings extends Component{
-    render()
-    {
+function ListPaintings() {
+
+    if(!localStorage.getItem('paintingList')){
+        let faker_list = JSON.stringify(PostP);
+        localStorage.setItem('paintingList', faker_list);
+        }
+    let definitivePaintingList = JSON.parse(localStorage.getItem('paintingList')) || [];
+
         return(
             
             <section>
@@ -13,19 +18,19 @@ class ListPaintings extends Component{
                     <h1>Lista de Pinturas</h1>
                 </header>
                 {
-                    PostP.map(post=>
+                    definitivePaintingList.map(paintingList=>
             
-                        <section key={post.id} className="painting_post">
+                        <section key={paintingList.id} className="painting_post">
                             <header>  
-                                    <h2>{post.title}</h2>
+                                    <h2>{paintingList.titulo}</h2>
                             </header>
                             <>
-                            <figcaption><img src={post.image}/></figcaption> 
+                            <figcaption><img src={paintingList.imagen}/></figcaption> 
                             </>
-                            <p>Autor: {post.author}</p>
-                            <p>Fecha:{post.year}</p>
-                            <p>Estilo:{post.style}</p>
-                            <p>Precio:{post.price}</p>
+                            <p>Autor: {paintingList.autor}</p>
+                            <p>Fecha:{paintingList.anno}</p>
+                            <p>Estilo:{paintingList.estilo}</p>
+                            <p>Precio:{paintingList.precio}</p>
                             <span></span>
                            
                         </section>
@@ -37,6 +42,6 @@ class ListPaintings extends Component{
             </section>
         )
     }
-}
+
 
 export default ListPaintings;
