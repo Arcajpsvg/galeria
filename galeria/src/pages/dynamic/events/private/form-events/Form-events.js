@@ -204,6 +204,17 @@ class FormEvents extends Component {
     return isValid;
   };
 
+  handleShowForm = () => {
+    this.setState({
+      validations: { ...this.state.validations },
+      values: { ...this.state.values },
+      showForm: !this.state.showForm,
+      finishedEditing: this.state.finishedEditing,
+      finishedPosting: this.state.finishedPosting,
+      nowEditing: this.state.nowEditing,
+    });
+  };
+
   render() {
     const { titulo, descripcion, imagen, fecha, aforoInvitados, precio } =
       this.state.values;
@@ -222,159 +233,171 @@ class FormEvents extends Component {
     return (
       <>
         <section id="form-container-events">
-          <header>
-            <h2>Crea un evento</h2>
+          <header id="form-header-events">
+            <button id="form-show-button" onClick={this.handleShowForm}>
+              {this.state.showForm
+                ? "Ocultar formulario"
+                : "Mostrar formulario"}
+            </button>
           </header>
 
-          <form id="form" onSubmit={this.handleSubmit}>
-            
-            <div className="row-form-events">
-            <div className="col-form-events">
-              <p>
-                <label>
-                  <input
-                    className="text-input"
-                    type="text"
-                    name="titulo"
-                    value={titulo}
-                    onChange={this.handleChange}
-                    placeholder="Titulo"
-                  ></input>
-                </label>
-              </p>
-              <span>{titleVal}</span>
-              <p>
-                <label>
-                  <textarea
-                    className="text-input"
-                    type="text"
-                    name="descripcion"
-                    value={descripcion}
-                    onChange={this.handleChange}
-                    placeholder="Descripción"
-                  ></textarea>
-                </label>
-              </p>
-              <span>{descriptionVal}</span>
-              <p>
-                <label>
-                  <input
-                    className="url-input"
-                    type="text"
-                    name="imagen"
-                    value={imagen}
-                    onChange={this.handleChange}
-                    placeholder="Imagen URL"
-                  ></input>
-                </label>
-              </p>
-              <span>{imageVal}</span>
-              <p>
-                <label>
-                  <input
-                    id="date-input"
-                    type="date"
-                    name="fecha"
-                    value={fecha}
-                    onChange={this.handleChange}
-                    placeholder="Fecha"
-                  ></input>
-                </label>
-              </p>
-            </div>
+          {this.state.showForm ? (
+            <form
+              id="form"
+              className="form-events"
+              onSubmit={this.handleSubmit}
+            >
+              <div className="row-form-events">
+                <div className="col-form-events">
+                  <header>
+                    <h2>Crea un evento</h2>
+                  </header>
+                  <p>
+                    <label>
+                      <input
+                        className="text-input"
+                        type="text"
+                        name="titulo"
+                        value={titulo}
+                        onChange={this.handleChange}
+                        placeholder="Titulo"
+                      ></input>
+                    </label>
+                  </p>
+                  <span>{titleVal}</span>
+                  <p>
+                    <label>
+                      <textarea
+                        className="text-input"
+                        type="text"
+                        name="descripcion"
+                        value={descripcion}
+                        onChange={this.handleChange}
+                        placeholder="Descripción"
+                      ></textarea>
+                    </label>
+                  </p>
+                  <span>{descriptionVal}</span>
+                  <p>
+                    <label>
+                      <input
+                        className="url-input"
+                        type="text"
+                        name="imagen"
+                        value={imagen}
+                        onChange={this.handleChange}
+                        placeholder="Imagen URL"
+                      ></input>
+                    </label>
+                  </p>
+                  <span>{imageVal}</span>
+                  <p>
+                    <label>
+                      <input
+                        id="date-input"
+                        type="date"
+                        name="fecha"
+                        value={fecha}
+                        onChange={this.handleChange}
+                        placeholder="Fecha"
+                      ></input>
+                    </label>
+                  </p>
+                  <br></br>
+                  <p>
+                    <button id="btn-submit" type="submit">
+                      ENVIAR
+                    </button>
+                  </p>
+                </div>
 
-            <div className="col-form-events">
-              <p>
-                <label>
-                  <input
-                    className="number-input"
-                    type="number"
-                    name="aforoInvitados"
-                    value={aforoInvitados}
-                    onChange={this.handleChange}
-                  ></input>
-                  Aforo invitados
-                </label>
-              </p>
-              <span>{guestsVal}</span>
-              <p>
-                <label>
-                  <input
-                    className="number-input"
-                    type="number"
-                    name="precio"
-                    value={precio}
-                    onChange={this.handleChange}
-                  ></input>
-                  Precio
-                </label>
-              </p>
-              <span>{priceVal}</span>
-              <br></br>
-              <p>¿Se trata de un evento formal?</p>
-              <p>
-                <label>
-                  <input
-                    className="radio-input"
-                    type="radio"
-                    name="eventoFormal"
-                    value="Formal"
-                    onChange={this.handleChange}
-                  ></input>
-                  Sí
-                </label>
-                <br></br>
-                <label>
-                  <input
-                    className="radio-input"
-                    type="radio"
-                    name="eventoFormal"
-                    value="Informal"
-                    onChange={this.handleChange}
-                  ></input>
-                  No
-                </label>
-              </p>
-              <span>{formalEventVal}</span>
+                <div className="col-form-events">
+                  <p>
+                    <label>
+                      <input
+                        className="number-input"
+                        type="number"
+                        name="aforoInvitados"
+                        value={aforoInvitados}
+                        onChange={this.handleChange}
+                      ></input>
+                      Aforo invitados
+                    </label>
+                  </p>
+                  <span>{guestsVal}</span>
+                  <p>
+                    <label>
+                      <input
+                        className="number-input"
+                        type="number"
+                        name="precio"
+                        value={precio}
+                        onChange={this.handleChange}
+                      ></input>
+                      Precio
+                    </label>
+                  </p>
+                  <span>{priceVal}</span>
+                  <br></br>
+                  <p>¿Se trata de un evento formal?</p>
+                  <p>
+                    <label>
+                      <input
+                        className="radio-input"
+                        type="radio"
+                        name="eventoFormal"
+                        value="Formal"
+                        onChange={this.handleChange}
+                      ></input>
+                      Sí
+                    </label>
+                    <br></br>
+                    <label>
+                      <input
+                        className="radio-input"
+                        type="radio"
+                        name="eventoFormal"
+                        value="Informal"
+                        onChange={this.handleChange}
+                      ></input>
+                      No
+                    </label>
+                  </p>
+                  <span>{formalEventVal}</span>
 
-              <br></br>
-              <p>¿Es apta para menores?</p>
-              <p>
-                <label>
-                  <input
-                    className="radio-input"
-                    type="radio"
-                    name="aptaMenores"
-                    value="Apta"
-                    onChange={this.handleChange}
-                  ></input>
-                  Sí
-                </label>
-                <br></br>
+                  <br></br>
+                  <p>¿Es apta para menores?</p>
+                  <p>
+                    <label>
+                      <input
+                        className="radio-input"
+                        type="radio"
+                        name="aptaMenores"
+                        value="Apta"
+                        onChange={this.handleChange}
+                      ></input>
+                      Sí
+                    </label>
+                    <br></br>
 
-                <label>
-                  <input
-                    className="radio-input"
-                    type="radio"
-                    name="aptaMenores"
-                    value="No apta"
-                    onChange={this.handleChange}
-                  ></input>
-                  No
-                </label>
-              </p>
-              <span>{suitableChildrenVal}</span>
-            </div>
-            </div>
+                    <label>
+                      <input
+                        className="radio-input"
+                        type="radio"
+                        name="aptaMenores"
+                        value="No apta"
+                        onChange={this.handleChange}
+                      ></input>
+                      No
+                    </label>
+                  </p>
+                  <span>{suitableChildrenVal}</span>
+                </div>
+              </div>
+            </form>
+          ) : null}
 
-            <br></br>
-            <p>
-              <button id="btn-submit" type="submit">
-                ENVIAR
-              </button>
-            </p>
-          </form>
-           <PrivateListEvents></PrivateListEvents>
+          <PrivateListEvents></PrivateListEvents>
         </section>
       </>
     );
