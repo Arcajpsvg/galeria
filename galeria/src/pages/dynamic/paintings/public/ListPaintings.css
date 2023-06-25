@@ -12,3 +12,7 @@
 text-align: center;
 
 }
+
+.painting_post figcaption img{
+width:400px;
+}

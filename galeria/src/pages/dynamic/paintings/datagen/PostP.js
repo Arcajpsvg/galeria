@@ -1,6 +1,7 @@
 import {faker} from '@faker-js/faker';
 
 let PostP = [1,2,3,4,5,6,7,8,9,10];
+let annoActual = new Date().getFullYear();
 
 PostP = PostP.map(post =>{
     return {
@@ -10,7 +11,7 @@ PostP = PostP.map(post =>{
         autor: faker.person.firstName(),
         estilo:faker.lorem.sentence(),
         precio:faker.commerce.price(),
-        anno: faker.date.past({ years: 80 }).toString()
+        anno: faker.number.int({max: annoActual})
     }
 });
 
