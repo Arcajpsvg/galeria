@@ -4,8 +4,27 @@
   flex-direction: column;
 }
 
-#form-container-events h2 {
-  padding: 10px 30px;
+#form-container-events {
+  padding-top: 30px;
+}
+
+#form-header-events {
+  display: flex;
+  justify-content: end;
+  margin-right: 50px;
+}
+
+.row-form-events {
+  display: flex;
+  justify-content: center;
+}
+
+.col-form-events {
+  margin: 20px 50px 20px 0;
+}
+
+.col-form-events header {
+  margin-bottom: 30px;
 }
 
 input,

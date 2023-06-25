@@ -1,6 +1,7 @@
 import { Component } from "react";
 import ValidatorFormEvents from "./validator/ValidatorFormEvents";
 import "../../../styles/formstyles/FormStyles.css";
+import PrivateListEvents from "../private-list-events/Private-list-events";
 
 class FormEvents extends Component {
   constructor(props) {
@@ -28,6 +29,10 @@ class FormEvents extends Component {
         eventoFormal: [],
         aptaMenores: [],
       },
+      nowEditing: false,
+      finishedEditing: false,
+      finishedPosting: false,
+      showForm: true,
     };
     this.events = [];
   }
@@ -38,7 +43,6 @@ class FormEvents extends Component {
       values: {
         ...this.state.values,
         [name]: value,
-        id: this.events.length,
       },
     });
   };
@@ -54,24 +58,73 @@ class FormEvents extends Component {
   };
 
   saveEvent() {
+    let id;
+
     if (localStorage.getItem("events")) {
       // extraer la lista de localstorage
       this.events = Array.from(JSON.parse(localStorage.getItem("events")));
-      console.log(this.events);
-      this.events.push(this.state.values);
+      console.log("EVENTS LENGTH: ", this.events.length);
+      // this.events.push(this.state.values);
+      console.log("EVENTS LENGTH after push: ", this.events.length);
+
+      id = this.events.length;
+      this.events.push({ ...this.state.values, id });
+      console.log("EVENTS LIST: ", this.events);
+
       let storageList = JSON.stringify(this.events);
       localStorage.setItem("events", storageList);
     } else {
-      this.events.push(this.state.values);
+      // this.events.push(this.state.values);
+      id = this.events.length;
+      this.events.push({ ...this.state.values, id });
       let jsonList = JSON.stringify(this.events);
       localStorage.setItem("events", jsonList);
     }
     alert(this.state.values.titulo + " ha sido añadido a la lista de eventos");
 
     this.setState({
-      ...this.state.values,
+      values: {
+        ...this.state.values,
+      },
     });
   }
+
+  editEvent = (id) => {
+    this.setState(
+      {
+        validations: { ...this.state.validations },
+        values: { ...this.state.values },
+        showForm: true,
+        finishedEditing: this.state.finishedEditing,
+        finishedPosting: this.state.finishedPosting,
+        nowEditing: true,
+      },
+      //el resto del código se pasa como una función callback aquí para evitar que los dos setStates se pisen.
+      () => {
+        let jsonList = Array.from(JSON.parse(localStorage.getItem("events")));
+        let editThis = jsonList.filter((element) => element.id === id)[0];
+        console.log("editando:", editThis);
+        this.setState({
+          values: {
+            id: editThis.id,
+            titulo: editThis.titulo,
+            descripcion: editThis.descripcion,
+            imagen: editThis.imagen,
+            fecha: editThis.fecha,
+            aforoInvitados: editThis.aforoInvitados,
+            precio: editThis.precio,
+            eventoFormal: editThis.eventoFormal,
+            aptaMenores: editThis.aptaMenores,
+          },
+          ...this.state.validations,
+          showForm: this.state.showForm,
+          nowEditing: true,
+          finishedPosting: false,
+          finishedEditing: false,
+        });
+      }
+    );
+  };
 
   validateTitle = (titulo) => {
     const validatorName = new ValidatorFormEvents(titulo);
@@ -151,6 +204,17 @@ class FormEvents extends Component {
     return isValid;
   };
 
+  handleShowForm = () => {
+    this.setState({
+      validations: { ...this.state.validations },
+      values: { ...this.state.values },
+      showForm: !this.state.showForm,
+      finishedEditing: this.state.finishedEditing,
+      finishedPosting: this.state.finishedPosting,
+      nowEditing: this.state.nowEditing,
+    });
+  };
+
   render() {
     const { titulo, descripcion, imagen, fecha, aforoInvitados, precio } =
       this.state.values;
@@ -169,150 +233,171 @@ class FormEvents extends Component {
     return (
       <>
         <section id="form-container-events">
-          <header>
-            <h2>Formulario eventos</h2>
+          <header id="form-header-events">
+            <button id="form-show-button" onClick={this.handleShowForm}>
+              {this.state.showForm
+                ? "Ocultar formulario"
+                : "Mostrar formulario"}
+            </button>
           </header>
 
-          <form id="form" onSubmit={this.handleSubmit}>
-            <p>
-              <label>
-                <input
-                  className="text-input"
-                  type="text"
-                  name="titulo"
-                  value={titulo}
-                  onChange={this.handleChange}
-                  placeholder="Titulo"
-                ></input>
-              </label>
-            </p>
-            <span>{titleVal}</span>
-            <p>
-              <label>
-                <textarea
-                  className="text-input"
-                  type="text"
-                  name="descripcion"
-                  value={descripcion}
-                  onChange={this.handleChange}
-                  placeholder="Descripción"
-                ></textarea>
-              </label>
-            </p>
-            <span>{descriptionVal}</span>
-            <p>
-              <label>
-                <input
-                  className="url-input"
-                  type="text"
-                  name="imagen"
-                  value={imagen}
-                  onChange={this.handleChange}
-                  placeholder="Imagen URL"
-                ></input>
-              </label>
-            </p>
-            <span>{imageVal}</span>
-            <p>
-              <label>
-                <input
-                  id="date-input"
-                  type="date"
-                  name="fecha"
-                  value={fecha}
-                  onChange={this.handleChange}
-                  placeholder="Fecha"
-                ></input>
-              </label>
-            </p>
-            <p>
-              <label>
-                <input
-                  className="number-input"
-                  type="number"
-                  name="aforoInvitados"
-                  value={aforoInvitados}
-                  onChange={this.handleChange}
-                ></input>
-                Aforo invitados
-              </label>
-            </p>
-            <span>{guestsVal}</span>
-            <p>
-              <label>
-                <input
-                  className="number-input"
-                  type="number"
-                  name="precio"
-                  value={precio}
-                  onChange={this.handleChange}
-                ></input>
-                Precio
-              </label>
-            </p>
-            <span>{priceVal}</span>
-            <br></br>
-            <p>¿Se trata de un evento formal?</p>
-            <p>
-              <label>
-                <input
-                  className="radio-input"
-                  type="radio"
-                  name="eventoFormal"
-                  value="Formal"
-                  onChange={this.handleChange}
-                ></input>
-                Sí
-              </label>
-              <br></br>
-              <label>
-                <input
-                  className="radio-input"
-                  type="radio"
-                  name="eventoFormal"
-                  value="Informal"
-                  onChange={this.handleChange}
-                ></input>
-                No
-              </label>
-            </p>
-            <span>{formalEventVal}</span>
+          {this.state.showForm ? (
+            <form
+              id="form"
+              className="form-events"
+              onSubmit={this.handleSubmit}
+            >
+              <div className="row-form-events">
+                <div className="col-form-events">
+                  <header>
+                    <h2>Crea un evento</h2>
+                  </header>
+                  <p>
+                    <label>
+                      <input
+                        className="text-input"
+                        type="text"
+                        name="titulo"
+                        value={titulo}
+                        onChange={this.handleChange}
+                        placeholder="Titulo"
+                      ></input>
+                    </label>
+                  </p>
+                  <span>{titleVal}</span>
+                  <p>
+                    <label>
+                      <textarea
+                        className="text-input"
+                        type="text"
+                        name="descripcion"
+                        value={descripcion}
+                        onChange={this.handleChange}
+                        placeholder="Descripción"
+                      ></textarea>
+                    </label>
+                  </p>
+                  <span>{descriptionVal}</span>
+                  <p>
+                    <label>
+                      <input
+                        className="url-input"
+                        type="text"
+                        name="imagen"
+                        value={imagen}
+                        onChange={this.handleChange}
+                        placeholder="Imagen URL"
+                      ></input>
+                    </label>
+                  </p>
+                  <span>{imageVal}</span>
+                  <p>
+                    <label>
+                      <input
+                        id="date-input"
+                        type="date"
+                        name="fecha"
+                        value={fecha}
+                        onChange={this.handleChange}
+                        placeholder="Fecha"
+                      ></input>
+                    </label>
+                  </p>
+                  <br></br>
+                  <p>
+                    <button id="btn-submit" type="submit">
+                      ENVIAR
+                    </button>
+                  </p>
+                </div>
 
-            <br></br>
-            <p>¿Es apta para menores?</p>
-            <p>
-              <label>
-                <input
-                  className="radio-input"
-                  type="radio"
-                  name="aptaMenores"
-                  value="Apta"
-                  onChange={this.handleChange}
-                ></input>
-                Sí
-              </label>
-              <br></br>
+                <div className="col-form-events">
+                  <p>
+                    <label>
+                      <input
+                        className="number-input"
+                        type="number"
+                        name="aforoInvitados"
+                        value={aforoInvitados}
+                        onChange={this.handleChange}
+                      ></input>
+                      Aforo invitados
+                    </label>
+                  </p>
+                  <span>{guestsVal}</span>
+                  <p>
+                    <label>
+                      <input
+                        className="number-input"
+                        type="number"
+                        name="precio"
+                        value={precio}
+                        onChange={this.handleChange}
+                      ></input>
+                      Precio
+                    </label>
+                  </p>
+                  <span>{priceVal}</span>
+                  <br></br>
+                  <p>¿Se trata de un evento formal?</p>
+                  <p>
+                    <label>
+                      <input
+                        className="radio-input"
+                        type="radio"
+                        name="eventoFormal"
+                        value="Formal"
+                        onChange={this.handleChange}
+                      ></input>
+                      Sí
+                    </label>
+                    <br></br>
+                    <label>
+                      <input
+                        className="radio-input"
+                        type="radio"
+                        name="eventoFormal"
+                        value="Informal"
+                        onChange={this.handleChange}
+                      ></input>
+                      No
+                    </label>
+                  </p>
+                  <span>{formalEventVal}</span>
 
-              <label>
-                <input
-                  className="radio-input"
-                  type="radio"
-                  name="aptaMenores"
-                  value="No apta"
-                  onChange={this.handleChange}
-                ></input>
-                No
-              </label>
-            </p>
-            <span>{suitableChildrenVal}</span>
-            <br></br>
-            <p>
-              <button id="btn-submit" type="submit">
-                ENVIAR
-              </button>
-            </p>
-          </form>
-          {/* <pre>{JSON.stringify(this.state.values)}</pre> */}
+                  <br></br>
+                  <p>¿Es apta para menores?</p>
+                  <p>
+                    <label>
+                      <input
+                        className="radio-input"
+                        type="radio"
+                        name="aptaMenores"
+                        value="Apta"
+                        onChange={this.handleChange}
+                      ></input>
+                      Sí
+                    </label>
+                    <br></br>
+
+                    <label>
+                      <input
+                        className="radio-input"
+                        type="radio"
+                        name="aptaMenores"
+                        value="No apta"
+                        onChange={this.handleChange}
+                      ></input>
+                      No
+                    </label>
+                  </p>
+                  <span>{suitableChildrenVal}</span>
+                </div>
+              </div>
+            </form>
+          ) : null}
+
+          <PrivateListEvents></PrivateListEvents>
         </section>
       </>
     );
