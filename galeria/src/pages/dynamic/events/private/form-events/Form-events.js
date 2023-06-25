@@ -1,6 +1,7 @@
 import { Component } from "react";
 import ValidatorFormEvents from "./validator/ValidatorFormEvents";
 import "../../../styles/formstyles/FormStyles.css";
+import PrivateListEvents from "../private-list-events/Private-list-events";
 
 class FormEvents extends Component {
   constructor(props) {
@@ -313,6 +314,7 @@ class FormEvents extends Component {
             </p>
           </form>
           {/* <pre>{JSON.stringify(this.state.values)}</pre> */}
+          <PrivateListEvents></PrivateListEvents>
         </section>
       </>
     );
