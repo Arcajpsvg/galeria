@@ -12,7 +12,7 @@ class FormPaintings extends Component {
         titulo: "",
         imagen: "",
         autor: "",
-        fecha: "",
+        anno: "",
         precio: 0,
         estilo: "",
       },
@@ -22,7 +22,7 @@ class FormPaintings extends Component {
         titulo: "",
         imagen: "",
         autor: "",
-        fecha: "",
+        anno: "",
         precio: 0,
         estilo: "",
       },
@@ -64,13 +64,13 @@ class FormPaintings extends Component {
   };
 
   validateAll = () => {
-    const { titulo, imagen, autor, fecha, precio, estilo } = this.state.values;
+    const { titulo, imagen, autor, anno, precio, estilo } = this.state.values;
     const validations = {
       id: 0,
       titulo: "",
       imagen: "",
       autor: "",
-      fecha: "",
+      anno: "",
       precio: 0,
       estilo: "",
     };
@@ -78,7 +78,7 @@ class FormPaintings extends Component {
     validations.titulo = this.validateTitulo(titulo);
     validations.imagen = this.validateImagen(imagen);
     validations.autor = this.validateAutor(autor);
-    validations.fecha = this.validateFecha(fecha);
+    validations.anno = this.validateFecha(anno);
     validations.precio = this.validatePrecio(precio);
     validations.estilo = this.validateEstilo(estilo);
 
@@ -120,8 +120,8 @@ class FormPaintings extends Component {
       .isLength(0, 50, "Error en la longitud").result;
   };
 
-  validateFecha = (fecha) => {
-    const validatorFecha = new ValidatorFormPaintings(fecha);
+  validateFecha = (anno) => {
+    const validatorFecha = new ValidatorFormPaintings(anno);
     return validatorFecha.isValidDate("Formato erroneo").result;
   };
 
@@ -137,12 +137,12 @@ class FormPaintings extends Component {
   };
 
   render() {
-    const { titulo, imagen, autor, fecha, precio, estilo } = this.state.values;
+    const { titulo, imagen, autor, anno, precio, estilo } = this.state.values;
     const {
       titulo: tituloVal,
       imagen: imagenVal,
       autor: autorVal,
-      fecha: fechaVal,
+      anno: fechaVal,
       estilo: estiloVal,
       precio: precioVal,
     } = this.state.validations;
@@ -195,9 +195,9 @@ class FormPaintings extends Component {
               <label>
                 Fecha
                 <input
-                  type="date"
-                  name="fecha"
-                  value={fecha}
+                  type="number"
+                  name="anno"
+                  value={anno}
                   onChange={this.handleChange}
                 ></input>
               </label>
