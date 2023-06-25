@@ -30,7 +30,7 @@ function Nav() {
         </ul>
         <ul id="nav-login">
           <li>
-            <Link to="/login"><i class="fa fa-user-circle" aria-hidden="true"></i></Link>
+            <Link to="/login"><i className="fa fa-user-circle" aria-hidden="true"></i></Link>
           </li>
         </ul>
       </nav>
