@@ -1,3 +1,9 @@
 {
-  "users": []
+  "users": [
+    {
+      "email": "sdfsdf@sdf.com",
+      "password": "$2a$10$X1p0AL23P2RW6dlCyK4GN.Qvr8BPIZvkQUpSJerWxg.aLO4NBmBHa",
+      "id": 1
+    }
+  ]
 }

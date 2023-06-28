@@ -11,13 +11,14 @@ export default function ArchiList(){
   
 
     return(
+        <> 
     <section id="public-arch-list">
     <header>
         <h1>Lista de Edificaciones</h1>
     </header>
     {
         localArreglo.map(edificacion => 
-            <article key={edificacion.id}>
+            <article key={edificacion.id} className='architecture-item'>
                 <header>
                     <h2>Name: {edificacion.name}</h2>
                 </header>
@@ -28,9 +29,10 @@ export default function ArchiList(){
 
             </article>)
     }
-    <p id='arch-link-control'>
-    <Link to='/archiprivate' id='private-arch-link'>Private area</Link>
-    </p>
+
 </section>
+ {sessionStorage.getItem('token') && <p id='arch-link-control'>
+    <Link to='/archiprivate' id='private-arch-link'>Private area</Link>
+    </p> }</>
 );
 }
