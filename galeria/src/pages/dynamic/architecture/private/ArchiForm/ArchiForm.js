@@ -4,6 +4,7 @@ import './ArchiForm.css';
 import '../../../styles/formstyles/FormStyles.css';
 import places from './../../datagen/ArchiData';
 import PrivateArchiList2 from "../privateArchiList/PrivateArchiList2";
+import ArchitectureDTO from "../DTO/Architecture";
 
 export default class ArchiForm extends Component{
 
@@ -67,14 +68,15 @@ handleSubmit = (e) => {
     if(localStorage.getItem('listArchi')){
         let arreglo = Array.from(JSON.parse(localStorage.getItem('listArchi')));
         let id = arreglo.length;
-        arreglo.push({...this.state.values, id});
+        let nuevoEdificio = new ArchitectureDTO({...this.state.values, id});
+        arreglo.push(nuevoEdificio);
         localStorage.setItem('listArchi', JSON.stringify(arreglo));
         this.setState({validations:{...this.state.validations}, values:{...this.state.values}, showForm: this.state.showForm, finishedEditing: false, finishedPosting: true, nowEditing: false});
 
     }else{
-    const values = this.state.values;
     let id =  places.length;
-    this.listItems.push({...values, id});
+    let nuevoEdificio = new ArchitectureDTO({...this.state.values, id});
+    this.listItems.push(nuevoEdificio);
     this.listItems = places.concat(this.listItems);
     let jsonList = JSON.stringify(this.listItems);
     localStorage.setItem('listArchi', jsonList);
